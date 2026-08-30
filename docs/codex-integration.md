@@ -33,14 +33,39 @@ sandbox response. These files are world-readable (mode `0644`) and can grow
 large (hundreds of MB to a few GB in long sessions), so a tailing reader
 must handle rotation and size, not assume the file stays small.
 
+Unlike the Claude Code adapter, `fornax-hook-codex` is not invoked by Codex
+itself — Codex has nothing analogous to a hook that would launch it. Run it
+yourself as a standalone, long-running process alongside your Codex session:
+
+```bash
+fornax-hook-codex &
+```
+
+It finds and tails the most recently modified rollout file under
+`~/.codex/sessions/` automatically, or you can point it at a specific one
+with `fornax-hook-codex --file <path-to-rollout.jsonl>`.
+
 ## What's confirmed vs. what isn't yet
 
-Codex's rollout JSONL field names (e.g. whether tool results carry a literal
-`exit_code` key) were not confirmed against a live session as of this
-writing — the adapter's field-name assumptions must be verified against a
-real captured `rollout-*.jsonl` before being treated as settled, the same
-way the Claude Code adapter's exit-code guess turned out to be wrong (see
-the [First finding walkthrough](./first-finding-walkthrough.md)).
+Codex's rollout JSONL wire shape is version-dependent, and both shapes below
+are confirmed against real captures rather than assumed:
+
+- On Codex CLI 0.147.0 (live-captured 2026-08-29), a shell execution shows up
+  as a `response_item` pair — `custom_tool_call` (the invocation) followed by
+  `custom_tool_call_output` (the result), matched by `call_id` — and that
+  shape carries **no literal exit code**. Fornax derives one heuristically
+  there (looking for a `"Script completed"` marker in the output text) and
+  marks the resulting evidence as heuristic, the same pattern used for Claude
+  Code's `Bash` tool result (see the
+  [First finding walkthrough](./first-finding-walkthrough.md)). On an
+  unrecognized output shape, the adapter emits no evidence at all rather than
+  guess at a verdict.
+- Separately, an `event_msg{type: "exec_command_end"}` shape was confirmed
+  against other captured rollout files and **does** carry a literal
+  `exit_code` field; the adapter still recognizes it. Which shape a given
+  Codex CLI version actually emits is not something Fornax controls, so both
+  are handled — re-verify against your installed CLI version before treating
+  either as the permanent one, since this surface is under active change.
 
 ## Explicit capability gaps (reported, never inferred around)
 
