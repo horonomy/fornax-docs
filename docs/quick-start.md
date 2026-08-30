@@ -97,6 +97,27 @@ For the full story behind a verdict:
 See [First finding walkthrough](./first-finding-walkthrough.md) for exactly
 this scenario, reproduced end-to-end with a real captured payload.
 
+## 5. Optional: connect to Beta (coming soon)
+
+Everything above is entirely local — no account, no network access beyond
+`127.0.0.1`, required. Fornax also has an **opt-in, Beta** hosted sync tier
+for teams that want a shared findings dashboard instead of just the local
+CLI/dashboard. It is not the default, not required, and not yet a
+polished single-command flow:
+
+- Cloud sync is gated by an explicit environment variable
+  (`FORNAX_CLOUD_SYNC_ENABLED`) that defaults to off — see
+  [Privacy & Redaction](./privacy-redaction.md) for exactly what it does and
+  does not send.
+- A guided device-registration/connect flow (so you don't have to hand-wire
+  credentials yourself) is still being built — tracked as FORNX-151 — and
+  is marked **Beta — coming soon** here until it ships. This page will be
+  updated with the real command once it lands; nothing below is a live API.
+
+If you just want to evaluate Fornax's core loop, you can stop at step 4 —
+Beta cloud sync adds a hosted dashboard on top, it doesn't change anything
+about local verification.
+
 ## Next
 
 - [Installation](./installation.md) for a persistent setup (PATH, running

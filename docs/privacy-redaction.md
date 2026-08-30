@@ -25,10 +25,13 @@ pub fn cloud_sync_allowed() -> bool {
 ```
 
 Unset, or set to anything other than `1`/`true` (case-insensitive) — including
-other truthy-looking strings like `yes` — leaves sync disabled. No cloud
-uploader exists yet in v0.0.1; this policy gate exists ahead of that work
-specifically so a future sync feature has no path to silently uploading
-anything without going through it first.
+other truthy-looking strings like `yes` — leaves sync disabled. A cloud
+uploader now exists (in the separate `fornax-cloud` service, as an opt-in
+**Beta** preview, not GA) and must consult this gate before any network
+call, so a user can disable sync mid-session and have it take effect
+immediately. A guided device-registration/connect flow for turning this on
+without hand-wiring the environment variable and credentials yourself is
+still being built (FORNX-151) — see [Quick Start](./quick-start.md#5-optional-connect-to-beta-coming-soon).
 
 ## Redaction at the ingest boundary
 
@@ -72,3 +75,14 @@ checks exist, and neither substitutes for the other.
 The local critical path's independence from cloud availability is tested
 explicitly with cloud config disabled — this isn't just written down in an
 ADR, it's a real test condition Fornax's own CI runs against (FORNX-34).
+
+Redaction at the ingest boundary — the point where evidence first reaches
+the local daemon, before it is stored or spooled for upload — is covered by
+an automated regression test and has been independently re-verified with a
+live canary marker. What has **not** had the same depth of independent,
+end-to-end re-verification is the further path an uploaded envelope takes
+once it leaves that boundary: transport through `fornax-cloud`'s uploader,
+ingest, and backend, into the hosted dashboard. That downstream path relies
+on the uploader's own last-line-of-defense egress guard rather than a
+second full pipeline re-check. This isn't rounded up to "fully verified" —
+it's a real, disclosed gap, not a hidden one.
