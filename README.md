@@ -5,18 +5,22 @@ built with [Docusaurus](https://docusaurus.io/). This repo owns the
 Docusaurus shell — theme, navigation, sidebar, and build — and aggregates
 public documentation content.
 
-## Status and known scope limitation (FORNX-45)
+## Status and known scope limitation (FORNX-45 / FORNX-154)
 
 This is the MVP shell plus authored content, built from `fornax-core`'s
 actual architecture and implementation. It does **not** yet configure a
-deploy workflow or canonical hostname. ADR 0002 in `fornax-core`
-(`docs/adr/0002-repo-and-ci-conventions.md`) says the accepted pattern is
-one Docusaurus site per product at `<product>.horo.run` with docs served at
-`/docs` — not a separate `docs.*` subdomain — while this ticket's own brief
-calls for a dedicated docs site aggregating multiple repos' content. That
-conflict is flagged, not resolved here; it needs an explicit owner decision
-before a hostname or deploy pipeline is added. See the FORNX-45 Jira ticket
-for the reconciliation.
+deploy workflow, and DNS for its canonical hostname is not live yet.
+
+The canonical hostname is `docs.fornax.horo.run`, per FORNX-43 ("Fornax
+Cloudflare product-domain topology") and FORNX-154's Beta-surface scope —
+a dedicated docs subdomain, matching this repo's actual dedicated-docs-site
+shape. `fornax-core`'s ADR 0002 (`docs/adr/0002-repo-and-ci-conventions.md`)
+originally recorded a different pattern (one site per product at
+`<product>.horo.run`, docs served at `/docs`, no separate `docs.*`
+subdomain) and explicitly flags itself as not yet reconciled with FORNX-43.
+That reconciliation/amendment belongs to `fornax-core`, not this repo — it
+is not made here. Actual Cloudflare routing for `docs.fornax.horo.run` is
+still FORNX-43's open work; nothing in this repo claims it is live.
 
 ## Content model
 
