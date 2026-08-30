@@ -55,6 +55,13 @@ function copyMarkdownDir(srcDir, destDir, sidebarLabel, position) {
       '---',
       `title: ${JSON.stringify(title)}`,
       `sidebar_position: ${i + 1}`,
+      // fornax-core's own docs are plain Markdown, not MDX, and can contain
+      // prose like `FORNX-<n>` outside of code spans — MDX's JSX parser
+      // treats that as an unclosed tag and fails the build. `mdx.format: md`
+      // renders this file with the CommonMark parser instead (no JSX/tag
+      // parsing), matching how the source file is actually authored.
+      'mdx:',
+      '  format: md',
       '---',
       '',
       '> Synced verbatim from `fornax-core` at build time — edit it there, not here.',
