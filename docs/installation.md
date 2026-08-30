@@ -16,7 +16,7 @@ cd fornax-core
 cargo build --workspace --release
 ```
 
-This produces five binaries under `target/release/`:
+This produces four binaries under `target/release/`:
 
 | Binary | Crate | Purpose |
 |---|---|---|
@@ -31,11 +31,13 @@ This produces five binaries under `target/release/`:
 export PATH="$(pwd)/target/release:$PATH"
 ```
 
-Add that line to your shell profile to make it persistent. Claude Code and
-Codex invoke `fornax-hook-claude` / `fornax-hook-codex` by name, so they must
-be resolvable on `PATH` (or referenced by absolute path in your hook config —
-see [Claude Code integration](./claude-code-integration.md) and
-[Codex integration](./codex-integration.md)).
+Add that line to your shell profile to make it persistent. Claude Code
+invokes `fornax-hook-claude` by name as a hook command, so it must be
+resolvable on `PATH` (or referenced by absolute path in your hook config —
+see [Claude Code integration](./claude-code-integration.md)). Codex does not
+invoke `fornax-hook-codex` at all — it's a standalone process you run
+yourself (`fornax-hook-codex &`) that tails Codex's rollout transcript; see
+[Codex integration](./codex-integration.md) for why, and how to start it.
 
 ## Run the daemon
 
