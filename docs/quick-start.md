@@ -109,10 +109,15 @@ polished single-command flow:
   (`FORNAX_CLOUD_SYNC_ENABLED`) that defaults to off — see
   [Privacy & Redaction](./privacy-redaction.md) for exactly what it does and
   does not send.
-- A guided device-registration/connect flow (so you don't have to hand-wire
-  credentials yourself) is still being built — tracked as FORNX-151 — and
-  is marked **Beta — coming soon** here until it ships. This page will be
-  updated with the real command once it lands; nothing below is a live API.
+- The device-registration API itself (`POST /v1/devices/register`, issuing
+  a credential for `FORNAX_CLOUD_AUTH_TOKEN`) is built and working
+  (FORNX-150/151) — but the hosted Beta backend isn't yet exposed for
+  public self-service registration; it stays access-controlled while the
+  Beta trust-model cutover is finalized (FORNX-137). Until that cutover,
+  connecting a device means asking a Fornax operator to issue you a
+  credential rather than registering yourself from this page. Still marked
+  **Beta — coming soon** for that reason; this page will be updated with
+  the real self-service command once the endpoint is public.
 
 If you just want to evaluate Fornax's core loop, you can stop at step 4 —
 Beta cloud sync adds a hosted dashboard on top, it doesn't change anything
