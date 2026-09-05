@@ -5,22 +5,22 @@ built with [Docusaurus](https://docusaurus.io/). This repo owns the
 Docusaurus shell — theme, navigation, sidebar, and build — and aggregates
 public documentation content.
 
-## Status and known scope limitation (FORNX-45 / FORNX-154)
+## Status (FORNX-45 / FORNX-154 / FORNX-328)
 
 This is the MVP shell plus authored content, built from `fornax-core`'s
-actual architecture and implementation. It does **not** yet configure a
-deploy workflow, and DNS for its canonical hostname is not live yet.
+actual architecture and implementation, deployed to Cloudflare Pages.
 
-The canonical hostname is `docs.fornax.horo.run`, per FORNX-43 ("Fornax
-Cloudflare product-domain topology") and FORNX-154's Beta-surface scope —
-a dedicated docs subdomain, matching this repo's actual dedicated-docs-site
-shape. `fornax-core`'s ADR 0002 (`docs/adr/0002-repo-and-ci-conventions.md`)
-originally recorded a different pattern (one site per product at
-`<product>.horo.run`, docs served at `/docs`, no separate `docs.*`
-subdomain) and explicitly flags itself as not yet reconciled with FORNX-43.
-That reconciliation/amendment belongs to `fornax-core`, not this repo — it
-is not made here. Actual Cloudflare routing for `docs.fornax.horo.run` is
-still FORNX-43's open work; nothing in this repo claims it is live.
+The canonical hostname is `docs.fornax.horonom.com`, per FORNX-328 ("Fornax
+domain migration to the Horonomy company constitution"), superseding
+FORNX-43/FORNX-154's earlier `docs.fornax.horo.run` — a dedicated docs
+subdomain, matching this repo's actual dedicated-docs-site shape.
+`docs.fornax.horo.run` still aliases to the same deployment but is no
+longer canonical. `fornax-core`'s ADR 0002
+(`docs/adr/0002-repo-and-ci-conventions.md`) originally recorded a
+different pattern (one site per product at `<product>.horo.run`, docs
+served at `/docs`, no separate `docs.*` subdomain) and explicitly flags
+itself as not yet reconciled with FORNX-43; that reconciliation/amendment
+belongs to `fornax-core`, not this repo.
 
 ## Content model
 
