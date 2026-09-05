@@ -13,15 +13,13 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // Canonical hostname per FORNX-43 ("Fornax Cloudflare product-domain
-  // topology") and FORNX-154's Beta-surface scope: docs.fornax.horo.run,
-  // a dedicated docs site (not fornax.horo.run/docs). This supersedes the
-  // single-site pattern fornax-core's ADR 0002 originally recorded — that
-  // ADR flags itself as not yet reconciled with FORNX-43; the amendment is
-  // fornax-core's to make, not this repo's. DNS/routing for this hostname
-  // is not live yet (confirmed via `dig`, no records as of 2026-08-30) —
-  // this is the intended hostname, not a live deploy.
-  url: 'https://docs.fornax.horo.run',
+  // Canonical hostname per FORNX-328 ("Fornax domain migration to the
+  // Horonomy company constitution"), superseding FORNX-43/FORNX-154's
+  // earlier horo.run-only convention: human-facing public docs now live on
+  // docs.fornax.horonom.com. Runtime/API/ingest boundaries are unaffected
+  // and stay on horo.run by design. docs.fornax.horo.run still aliases to
+  // the same Cloudflare Pages deployment but is no longer canonical.
+  url: 'https://docs.fornax.horonom.com',
   baseUrl: '/',
 
   organizationName: 'horonomy',
