@@ -46,9 +46,11 @@ function track(name: string, params?: Record<string, string>): void {
 const INSTALL_LANGUAGES = new Set(['bash', 'sh', 'shell', 'zsh'])
 
 function languageOfCodeBlock(copyButton: Element): string {
-  const pre = copyButton.closest('pre')
-  const codeEl = pre?.querySelector('code')
-  const match = /language-(\w+)/.exec(codeEl?.className ?? '')
+  // The copy button lives in a sibling buttonGroup, not inside <pre> --
+  // the nearest ancestor carrying the "language-*" class is the code
+  // block's outer container (`.theme-code-block`).
+  const container = copyButton.closest('[class*="language-"]')
+  const match = /language-(\w+)/.exec(container?.className ?? '')
   return match ? match[1] : 'unknown'
 }
 
@@ -57,14 +59,17 @@ if (typeof document !== 'undefined') {
     const target = event.target
     if (!(target instanceof Element)) return
 
-    // Docusaurus's built-in code-block copy-to-clipboard button.
-    const copyButton = target.closest('button[class*="copyButton"]')
+    // Docusaurus's built-in code-block copy-to-clipboard button. Its CSS
+    // module class name isn't stable/predictable across versions (it has
+    // no "copyButton" substring at runtime despite the source name), so
+    // this matches on the button's actual rendered aria-label instead.
+    const copyButton = target.closest('button[aria-label="Copy code to clipboard"]')
     if (copyButton) {
-      const language = languageOfCodeBlock(copyButton)
-      if (INSTALL_LANGUAGES.has(language)) {
-        track('install_command_copy', { language, snippet_type: 'install' })
+      const snippetLanguage = languageOfCodeBlock(copyButton)
+      if (INSTALL_LANGUAGES.has(snippetLanguage)) {
+        track('install_command_copy', { snippet_language: snippetLanguage, snippet_type: 'install' })
       } else {
-        track('code_copy', { language, snippet_type: 'code' })
+        track('code_copy', { snippet_language: snippetLanguage, snippet_type: 'code' })
       }
       return
     }
