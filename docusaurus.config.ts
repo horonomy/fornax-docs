@@ -50,21 +50,28 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-        // Same public marketing GA4 stream fornax-website uses (FORNX-329)
-        // — one coherent fornax.horonom.com -> docs.fornax.horonom.com
-        // funnel, not a second property. Docusaurus's own gtag plugin
-        // handles SPA route-change page views natively, so no custom
-        // tracking code is needed here. Omitted entirely (no-op) when
-        // GA_MEASUREMENT_ID is unset, matching fornax-website's pattern.
-        gtag: process.env.GA_MEASUREMENT_ID
+        // Dedicated Documentation GA4 stream (FORNX-330), separate from
+        // fornax-website's marketing stream -- superseding FORNX-329's
+        // temporary shared-stream state (which only existed so the real
+        // marketing->docs browser journey could be validated end to end
+        // before this dedicated stream was available). Exactly one
+        // trackingID here by design: never double-tag docs with the
+        // marketing Measurement ID. Docusaurus's own gtag plugin handles
+        // SPA route-change page views natively; src/clientModules/
+        // analytics.ts adds a small set of real-UI interaction events on
+        // top of it. Omitted entirely (no-op) when GA_DOCS_MEASUREMENT_ID
+        // is unset.
+        gtag: process.env.GA_DOCS_MEASUREMENT_ID
           ? {
-              trackingID: process.env.GA_MEASUREMENT_ID,
+              trackingID: process.env.GA_DOCS_MEASUREMENT_ID,
               anonymizeIP: true,
             }
           : undefined,
       } satisfies Preset.Options,
     ],
   ],
+
+  clientModules: ['./src/clientModules/analytics.ts'],
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
