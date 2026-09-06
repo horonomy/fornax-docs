@@ -41,7 +41,9 @@ What the current adapter/session can actually observe — e.g.
 `supports_post_tool_use`, `supports_transcript_tail`. Declared conservatively,
 matching what an adapter actually reads, never inferred as more capable than
 confirmed. A verifier checks capabilities before evidence: if the runtime
-can't expose what it needs, the finding is `UNAVAILABLE`, not a guess.
+can't expose what it needs, the finding is `UNAVAILABLE`, not a guess. See
+[Capabilities](./capabilities.md) for the richer, per-signal-class
+availability taxonomy an adapter announces on top of these boolean checks.
 
 ## Finding
 
@@ -70,3 +72,12 @@ passed against the most recent test-runner evidence observed in the session,
 most recent first. It never invents evidence: with no relevant evidence
 found, it returns `UNVERIFIED` with an explicit rationale, not `VERIFIED` by
 default.
+
+## Inspecting the trust decision behind a finding
+
+The claim/evidence/verdict triple above is the model; two live commands let
+you inspect and act on the trust decision it produces for a specific claim:
+[Evidence graph](./evidence-graph.md) shows the full typed evidence graph a
+claim's finding was computed from, and [Fusion & decision](./fusion-and-decision.md)
+shows the aggregated verdict and the actionable `PROCEED`/`REVIEW`/`BLOCK`
+recommendation computed on top of it.
