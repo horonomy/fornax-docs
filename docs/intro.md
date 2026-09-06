@@ -7,7 +7,8 @@ slug: /intro
 # What is Fornax?
 
 Fornax is an **evidence-first agent-integrity system** for coding agents
-(Claude Code, Codex). It answers one question:
+(Claude Code, Codex, and — with narrower coverage —
+[OpenCode](./opencode-integration.md)). It answers one question:
 
 > What should I believe about what this agent is telling me, given the
 > evidence currently available?
