@@ -53,3 +53,55 @@ second LLM to guess whether the first one is lying. It:
 Anyone running Claude Code or Codex on real work who wants a check on the
 agent's own narration — in the terminal (status line, `fornax detail`) or a
 local dashboard — without sending anything off their machine to get it.
+
+## When to use it
+
+Concrete situations where running Fornax alongside your agent session pays
+off:
+
+- You're about to trust an agent's "tests pass" / "build succeeded" /
+  "deployed" claim on a change you haven't reviewed line-by-line yourself.
+- You're pairing a fast, terse agent workflow (accept-diff-and-move-on)
+  with something you'd regret shipping wrong — and want a check that
+  doesn't slow you down when nothing's wrong.
+- You maintain a repo other people's agents touch, and want an
+  agent-neutral, evidence-backed record of what actually happened in a
+  session, not just what got summarized in a PR description.
+- You're evaluating whether a specific agent/model/adapter combination
+  narrates its own work accurately, before relying on it unsupervised.
+- You want to hand a session's evidence to a teammate or a sync target
+  instead of re-explaining what happened from memory — see
+  [Export a session](./scenarios.md#scenario-3-export-a-sessions-evidence-for-a-teammate-or-cloud-sync).
+- You're comparing Claude Code vs. Codex (or, with narrower coverage,
+  OpenCode) on the same kind of task and want their claim-vs-evidence
+  behavior made visible instead of inferred from vibes.
+
+## When NOT to use it
+
+- You need Fornax to judge subjective correctness ("did it implement the
+  *intended* architecture") — verifiers check claims against captured
+  evidence for objectively-checkable classes (test/build/exit-code/file
+  state), not architectural taste. See
+  [Claims, Evidence & Findings](./concepts.md) for exactly what's checked.
+- You need a hosted, always-on team dashboard, shared policy administration,
+  or enterprise governance today — none of that is built yet (see Maturity
+  below); the local daemon + CLI + dashboard is the whole current product.
+- You need symmetric guarantees across every agent runtime — Codex's
+  adapter tails transcripts rather than using hooks and currently only
+  confirms a *success* heuristic reliably (see
+  [Codex integration](./codex-integration.md) and
+  [Scenario 2](./scenarios.md#scenario-2-verify-a-codex-sessions-claim)); it
+  is not yet as strong at catching a false claim as the Claude Code adapter.
+
+## Maturity
+
+| Capability | Status |
+|---|---|
+| `fornax status` / `fornax detail`, Claude Code adapter, Codex adapter, `export-spool` | **SHIPPED** — `v0.0.1`, on the public `main` branch today |
+| `fornax capabilities`, `install-claude`/`install-codex` CLI installers | **SHIPPED**, `v0.0.3` line — engineering-complete, QA-signed-off, not yet tagged |
+| OpenCode adapter | **PARTIAL** — real, `v0.0.3` line, narrower event coverage, manual setup only (see [OpenCode integration](./opencode-integration.md)) |
+| `evidence-graph`, `fusion`, `decision`, `judge`, `reliability`, `experiment` | **PLANNED** — `v0.0.4`, in development, not runnable today (see [Planned](./planned/evidence-graph.md)) |
+| Cloud team dashboard, shared policy administration, enterprise governance, BYOC/self-host beyond the local daemon | **NOT IMPLEMENTED** — described as a long-term direction in the product thesis, not started |
+
+See [Start here: scenarios](./scenarios.md) for the shortest path to trying
+this yourself.
