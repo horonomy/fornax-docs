@@ -1,6 +1,6 @@
 ---
 title: Capabilities
-sidebar_position: 24
+sidebar_position: 19
 ---
 
 # Capabilities
@@ -20,7 +20,7 @@ six states per class, not a single yes/no per capability.
 
 To answer "what could Fornax actually see in this session?" before you
 trust — or question — a finding that says `UNAVAILABLE`, or before relying
-on a [reliability](./reliability.md) or [judge](./semantic-judge.md) result
+on a [reliability](./planned/reliability.md) or [judge](./planned/semantic-judge.md) result
 that itself depends on a capability being announced.
 
 ## When to use it
@@ -96,6 +96,6 @@ never-collapse-the-taxonomy discipline `evidence-graph`/`fusion` follow.
 
 ## Where to go next
 
-- [Reliability](./reliability.md) — depends on at least one capability announcement existing to build a context key.
+- [Reliability](./planned/reliability.md) — depends on at least one capability announcement existing to build a context key (planned, v0.0.4).
 - [Privacy & Redaction](./privacy-redaction.md) — what `redacted` actually withholds and why.
 - [Concepts: Claim, Evidence, Finding](./concepts.md) — the coarser `RuntimeCapabilities` boolean checks a verifier uses internally.

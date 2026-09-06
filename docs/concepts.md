@@ -75,9 +75,11 @@ default.
 
 ## Inspecting the trust decision behind a finding
 
-The claim/evidence/verdict triple above is the model; two live commands let
-you inspect and act on the trust decision it produces for a specific claim:
-[Evidence graph](./evidence-graph.md) shows the full typed evidence graph a
-claim's finding was computed from, and [Fusion & decision](./fusion-and-decision.md)
-shows the aggregated verdict and the actionable `PROCEED`/`REVIEW`/`BLOCK`
-recommendation computed on top of it.
+The claim/evidence/verdict triple above is the model. Two commands planned
+for v0.0.4 will let you inspect and act on the trust decision it produces
+for a specific claim: [Evidence graph](./planned/evidence-graph.md) will
+show the full typed evidence graph a claim's finding was computed from, and
+[Fusion & decision](./planned/fusion-and-decision.md) will show the
+aggregated verdict and an actionable `PROCEED`/`REVIEW`/`BLOCK`
+recommendation computed on top of it — see those pages for their current
+planned/in-development status.

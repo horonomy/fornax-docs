@@ -1,17 +1,26 @@
 ---
-title: Reliability & drift
-sidebar_position: 21
+title: Reliability & drift (planned)
+sidebar_position: 4
 ---
 
-# Reliability & drift
+# Reliability & drift (planned for v0.0.4)
 
-`fornax reliability` renders a context-scoped historical reliability signal
-for a given provider/model/adapter/task combination — plus, optionally, a
-drift check comparing that context against a second model or adapter
-version (FORNX-105). This subcommand is a pure display/wiring layer: it
-computes no new statistic itself, only renders what `compute_reliability`/
-`detect_drift` (FORNX-104) already produced from `ReliabilityContextKey`
-(FORNX-103).
+:::info Planned — not yet in any released version
+`fornax reliability` exists today only on Fornax's in-progress
+`next/v0.0.4` development branch. No CHANGELOG entry, no epic sign-off,
+not present in `main` or the `v0.0.3` release line. Everything below
+describes the target shape from that branch's current source and its own
+test fixtures — it is not runnable against any released `fornax` binary
+today.
+:::
+
+Once shipped, `fornax reliability` will render a context-scoped historical
+reliability signal for a given provider/model/adapter/task combination —
+plus, optionally, a drift check comparing that context against a second
+model or adapter version (FORNX-105). It's designed as a pure display/
+wiring layer: it computes no new statistic itself, only renders what
+`compute_reliability`/`detect_drift` (FORNX-104) already produced from
+`ReliabilityContextKey` (FORNX-103).
 
 ## Why would I use it?
 
@@ -35,9 +44,9 @@ refuses to aggregate at all unless
 conflated messages.
 :::
 
-## How
+## How (target shape, not yet runnable)
 
-Enable it first:
+Planned to be off by default, enabled via config first:
 
 ```toml
 # $FORNAX_HOME/config.toml
@@ -63,8 +72,8 @@ fornax reliability <SESSION> \
   --fusion-version fusion-v1
 ```
 
-Real-shaped output (values drawn from the CLI's own reliability test
-fixtures):
+Target output shape (values drawn from the in-development branch's own
+reliability test fixtures — not a live capture):
 
 ```
 session: s1
@@ -122,23 +131,23 @@ And when there isn't enough data on either side to judge:
   drift: ? insufficient data for comparison -- at least one side lacks sample support
 ```
 
-## What happens internally
+## What will happen internally
 
-`fornax reliability` reads `GET /api/reliability` on the daemon, which reads
-the session's announced capabilities to build the context key's capability
-fingerprint, looks up (or compares) the reliability cohort matching every
-supplied dimension, and returns the signal (or drift assessment) — the CLI
-only renders it.
+`fornax reliability` is designed to read `GET /api/reliability` on the
+daemon, which will read the session's announced capabilities to build the
+context key's capability fingerprint, look up (or compare) the reliability
+cohort matching every supplied dimension, and return the signal (or drift
+assessment) — the CLI only renders it.
 
-## Constraints
+## Constraints (as designed)
 
-- Aggregation is off by default (privacy gate above).
-- A `ReliabilityContextKey` has no default/partial constructor — every
-  dimension is required on every call.
-- Requires the session to have at least one capability announcement on
+- Aggregation planned off by default (privacy gate above).
+- A `ReliabilityContextKey` is designed with no default/partial
+  constructor — every dimension is required on every call.
+- Will require the session to have at least one capability announcement on
   record; without one, a context key can't be built at all.
 
-## What can go wrong
+## What to watch for once it ships
 
 | Symptom | Cause |
 |---|---|
@@ -150,6 +159,6 @@ only renders it.
 
 ## Where to go next
 
-- [Capabilities](./capabilities.md) — what "capabilities announced" means and how to check it for a session.
-- [Fusion & decision](./fusion-and-decision.md) — the live, per-claim verdict this historical signal complements but never replaces.
-- [Privacy & Redaction](./privacy-redaction.md) — the broader local-first/opt-in stance this gate follows.
+- [Capabilities](../capabilities.md) — shipped today; what "capabilities announced" means and how to check it for a session.
+- [Fusion & decision](./fusion-and-decision.md) — planned, the live, per-claim verdict this historical signal is designed to complement, never replace.
+- [Privacy & Redaction](../privacy-redaction.md) — shipped today; the broader local-first/opt-in stance this planned gate follows.

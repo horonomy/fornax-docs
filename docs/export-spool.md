@@ -1,6 +1,6 @@
 ---
 title: Export spool
-sidebar_position: 23
+sidebar_position: 18
 ---
 
 # Export spool
@@ -25,10 +25,10 @@ requiring the daemon to be running or reachable. It reads
 - Debugging what the daemon actually persisted for a session, file by file.
 
 :::note Works while the daemon is stopped
-Unlike `evidence-graph`/`fusion`/`decision`/`judge`/`reliability`/`capabilities`,
-this command reads the SQLite store directly and needs no running daemon —
-the same precedent [`fornax experiment`](./experiment.md) follows for the
-same reason.
+Unlike [`capabilities`](./capabilities.md), which reads the daemon's HTTP
+API, `export-spool` reads the SQLite store directly and needs no running
+daemon — the same precedent the planned [`fornax experiment`](./planned/experiment.md)
+command follows for the same reason.
 :::
 
 ## How
