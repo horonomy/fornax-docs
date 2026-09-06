@@ -19,6 +19,19 @@ adapter (all real but on the not-yet-tagged `v0.0.3` line), or
 (planned, `v0.0.4`, not runnable at all). See [Maturity](./why-fornax.md#maturity).
 :::
 
+:::warning[Stop each daemon before starting the next scenario]
+`fornax-daemon`'s HTTP API always binds `127.0.0.1:4317`, regardless of
+`$FORNAX_HOME` — only the Unix socket and database path are scoped per
+`$FORNAX_HOME`. If you start a new scenario's daemon while a previous
+one is still running, the new daemon fails to bind (logged, not shown to
+you) and **`fornax status`/`detail` will silently show the previous
+scenario's stale verdict** instead of an error. Kill each scenario's
+daemon (each scenario's Cleanup step says exactly how) before starting
+the next one. To run more than one at once instead, set a distinct
+`FORNAX_HTTP_PORT` for each (e.g. `FORNAX_HTTP_PORT=4318`) — see
+FORNX-339 for the underlying limitation.
+:::
+
 ## How this fits together
 
 ```mermaid
@@ -111,7 +124,7 @@ event before the `Stop` event, and a real Claude Code hook install
 declares capabilities on `SessionStart` automatically (see
 [Installing the Claude Code integration](./claude-code-integration.md)).
 
-**Cleanup**: `rm -rf "$FORNAX_HOME"`; kill the backgrounded daemon.
+**Cleanup**: `pkill -f fornax-daemon` (or kill the specific PID), then `rm -rf "$FORNAX_HOME"` -- do this before starting the next scenario, see the warning above.
 
 **Going deeper**: this is a simplified replay of a real, reproduced
 incident — see [First finding walkthrough](./first-finding-walkthrough.md)
@@ -194,8 +207,9 @@ confirming a true "it worked" claim than at catching a false one. Claude
 Code's `PostToolUse` adapter (Scenario 1) has a real literal exit code and
 does not share this asymmetry.
 
-**Cleanup**: `rm -rf "$FORNAX_HOME"`; kill the backgrounded daemon and
-hook process.
+**Cleanup**: `pkill -f fornax-daemon; pkill -f fornax-hook-codex`, then
+`rm -rf "$FORNAX_HOME"` — do this before starting the next scenario, see
+the warning above.
 
 **Going deeper**: [Codex integration](./codex-integration.md).
 
@@ -257,17 +271,18 @@ looks like:
 {"claimed_at":"2026-09-06T14:17:09.636825+00:00","id":"20cc20f0-...","session_id":"quickstart-demo","source_event_id":"88521fe6-...","subject":"test_result","text":"All tests passed, the fix is complete.","type":"claim"}
 ```
 
-**How to verify success**: `ls <out>/pending/` shows one `.json` file per
-record; the printed count line matches what you expect from the session
-(2 events, 1 claim, 1 evidence — no capabilities file here since this
-scratch session never declared any, see the gotcha below).
+**How to verify success**: `ls <out>/pending/` shows 5 files — 2 events,
+1 claim, 1 evidence, 1 capabilities — matching the printed count line.
+`fornax-hook-claude` records an implicit capabilities entry on the very
+first message it handles, even for a hand-simulated session like
+Scenario 1's with no explicit `SessionStart` — so the capabilities file
+shows up here too, not only for a real Claude Code install.
 
-**Common gotchas**: a `capabilities` file is only written when the session
-declared at least one capabilities announcement — a hand-simulated session
-(like Scenario 1's) won't have one; a real Claude Code session does
-(`SessionStart` declares capabilities automatically). This command works
-with the daemon stopped — it reads the SQLite file directly, no socket
-involved.
+**Common gotchas**: a `capabilities` file is only ever *absent* from the
+export when the session has zero capabilities announcements on record at
+all (FORNX-62) — in practice that's rare once any hook has run. This
+command works with the daemon stopped — it reads the SQLite file
+directly, no socket involved.
 
 **Security/privacy note**: the exported files contain whatever was
 captured — tool inputs/outputs, transcript claim text. Nothing is redacted
