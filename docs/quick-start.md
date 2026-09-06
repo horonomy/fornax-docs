@@ -14,7 +14,9 @@ the same local path used to validate Fornax's core loop (FORNX-34).
 - macOS or Linux (Fornax uses a Unix Domain Socket for adapter → daemon
   transport; there is no Windows support in v0.0.1).
 - Claude Code, if you want to see live findings from a real session (Codex
-  works too — see [Codex integration](./codex-integration.md)).
+  works too — see [Codex integration](./codex-integration.md) — and so
+  does OpenCode, with narrower event coverage and manual setup — see
+  [OpenCode integration](./opencode-integration.md)).
 
 ## 1. Clone and build
 
