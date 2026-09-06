@@ -44,17 +44,23 @@ function titleFromMarkdown(content, fallback) {
   return match ? match[1].trim() : fallback;
 }
 
-function copyMarkdownDir(srcDir, destDir, sidebarLabel, position) {
+function copyMarkdownDir(srcDir, destDir, sidebarLabel, position, coreRelDir) {
   if (!existsSync(srcDir)) return 0;
   mkdirSync(destDir, { recursive: true });
   const files = readdirSync(srcDir).filter((f) => f.endsWith('.md'));
   files.forEach((file, i) => {
     const raw = readFileSync(join(srcDir, file), 'utf8');
     const title = titleFromMarkdown(raw, file.replace(/\.md$/, ''));
+    // Docusaurus's default "Edit this page" link uses this repo's own
+    // editUrl (fornax-docs), but these files are gitignored here and only
+    // ever committed in fornax-core — that default link 404s. Point
+    // custom_edit_url at the real upstream source instead (FORNX-333).
+    const editUrl = `https://github.com/horonomy/fornax-core/tree/main/docs/${coreRelDir}/${file}`;
     const frontmatter = [
       '---',
       `title: ${JSON.stringify(title)}`,
       `sidebar_position: ${i + 1}`,
+      `custom_edit_url: ${JSON.stringify(editUrl)}`,
       // fornax-core's own docs are plain Markdown, not MDX, and can contain
       // prose like `FORNX-<n>` outside of code spans — MDX's JSX parser
       // treats that as an unclosed tag and fails the build. `mdx.format: md`
@@ -97,13 +103,17 @@ writeCategory(referenceRoot, 'Reference (from fornax-core)', 90);
 const adrCount = copyMarkdownDir(
   join(corePath, 'docs', 'adr'),
   join(referenceRoot, 'adr'),
-  'Architecture Decisions'
+  'Architecture Decisions',
+  undefined,
+  'adr'
 );
 writeCategory(join(referenceRoot, 'adr'), 'Architecture Decisions', 1);
 const researchCount = copyMarkdownDir(
   join(corePath, 'docs', 'research'),
   join(referenceRoot, 'research'),
-  'Research'
+  'Research',
+  undefined,
+  'research'
 );
 writeCategory(join(referenceRoot, 'research'), 'Research', 2);
 
