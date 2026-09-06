@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Fusion & decision (planned for v0.0.4)
 
-:::info Planned — not yet in any released version
+:::info[Planned — not yet in any released version]
 `fornax fusion` and `fornax decision` exist today only on Fornax's
 in-progress `next/v0.0.4` development branch. No CHANGELOG entry, no epic
 sign-off, not present in `main` or the `v0.0.3` release line. Everything
@@ -130,7 +130,7 @@ daemon returns.
   `fornax_verify::decision` are written against that class specifically, so
   don't assume `lenient` simply loosens every rule uniformly.
 
-:::warning Unresolved conflicts are shown, not silently resolved
+:::warning[Unresolved conflicts are shown, not silently resolved]
 When linked evidence both supports and contradicts a claim, fusion surfaces
 an explicit `⚠ unresolved conflict` banner rather than picking a side. A
 `decision` recommendation computed on top of an unresolved conflict is real
