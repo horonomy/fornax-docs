@@ -36,6 +36,9 @@ jobs:
       - name: typecheck
         run: npm run typecheck
 
+      - name: check for stale hostname references
+        run: npm run check-docs
+
       - name: build
         env:
           FORNAX_CORE_PATH: ${{ github.workspace }}/fornax-core
