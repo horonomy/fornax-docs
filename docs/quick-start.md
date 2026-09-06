@@ -95,7 +95,10 @@ For the full story behind a verdict:
 ```
 
 See [First finding walkthrough](./first-finding-walkthrough.md) for exactly
-this scenario, reproduced end-to-end with a real captured payload.
+this scenario, reproduced end-to-end with a real captured payload. To go
+deeper than a single verdict — the full evidence graph behind it, and an
+actionable recommendation computed on top — see
+[Evidence graph](./evidence-graph.md) and [Fusion & decision](./fusion-and-decision.md).
 
 ## 5. Optional: connect to Beta (coming soon)
 
