@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Evidence graph (planned for v0.0.4)
 
-:::info Planned — not yet in any released version
+:::info[Planned — not yet in any released version]
 `fornax evidence-graph` exists today only on Fornax's in-progress
 `next/v0.0.4` development branch. It has no CHANGELOG entry, no epic
 sign-off, and is **not present** in `main` or in the `v0.0.3` release line
@@ -77,7 +77,7 @@ separately:
     tool_result: unavailable (adapter does not report exit_code for this tool)
 ```
 
-:::note Three distinct "nothing to show" outcomes (by design)
+:::note[Three distinct "nothing to show" outcomes (by design)]
 This command is designed to deliberately render three different situations
 that could otherwise look identical:
 - the claim id is unknown to the daemon at all,

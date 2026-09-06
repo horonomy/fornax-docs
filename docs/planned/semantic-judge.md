@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Semantic judge (planned for v0.0.4)
 
-:::info Planned — not yet in any released version
+:::info[Planned — not yet in any released version]
 `fornax judge` exists today only on Fornax's in-progress `next/v0.0.4`
 development branch. No CHANGELOG entry, no epic sign-off, not present in
 `main` or the `v0.0.3` release line. Everything below describes the
@@ -20,7 +20,7 @@ alongside the same full fusion detail the planned
 [`fusion`](./fusion-and-decision.md)/[`decision`](./fusion-and-decision.md)
 commands render (FORNX-94).
 
-:::warning The judge never replaces the deterministic trail
+:::warning[The judge never replaces the deterministic trail]
 The judge's opinion is one more evidence source, always shown *alongside*
 the real evidence-graph-derived verdict, never instead of it. It is
 **disabled by default** — a user who has never touched `$FORNAX_HOME/config.toml`

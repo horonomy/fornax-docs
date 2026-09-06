@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Reliability & drift (planned for v0.0.4)
 
-:::info Planned — not yet in any released version
+:::info[Planned — not yet in any released version]
 `fornax reliability` exists today only on Fornax's in-progress
 `next/v0.0.4` development branch. No CHANGELOG entry, no epic sign-off,
 not present in `main` or the `v0.0.3` release line. Everything below
@@ -35,7 +35,7 @@ Before trusting a model/adapter version for a risk-sensitive task class, or
 right after bumping one, to check for drift rather than assuming the new
 version behaves the same as the old one.
 
-:::warning Off by default — a real privacy gate, not a bug
+:::warning[Off by default — a real privacy gate, not a bug]
 Historical reliability aggregation is **disabled by default**. The daemon
 refuses to aggregate at all unless
 `[reliability].historical_aggregation_enabled = true` is set in

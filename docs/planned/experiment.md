@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Experiments (planned for v0.0.4, counterfactual verification)
 
-:::info Planned — not yet in any released version
+:::info[Planned — not yet in any released version]
 `fornax experiment` exists today only on Fornax's in-progress
 `next/v0.0.4` development branch. No CHANGELOG entry, no epic sign-off,
 not present in `main` or the `v0.0.3` release line. Everything below
@@ -20,7 +20,7 @@ a baseline state, observe whether the claim's evidence changes the way the
 hypothesis predicts, and get back causally-labeled evidence — never just an
 LLM's opinion about causality (FORNX-101).
 
-:::note Designed to be client-side, no daemon involved
+:::note[Designed to be client-side, no daemon involved]
 `fornax experiment` is designed to run entirely against local filesystem
 paths — it will never call the daemon. An experiment needs a real
 working-tree `source_root` to stage an isolated copy under, and that's a

@@ -24,7 +24,7 @@ requiring the daemon to be running or reachable. It reads
 - Archiving a session's full evidence trail before cleaning up local state.
 - Debugging what the daemon actually persisted for a session, file by file.
 
-:::note Works while the daemon is stopped
+:::note[Works while the daemon is stopped]
 Unlike [`capabilities`](./capabilities.md), which reads the daemon's HTTP
 API, `export-spool` reads the SQLite store directly and needs no running
 daemon — the same precedent the planned [`fornax experiment`](./planned/experiment.md)
