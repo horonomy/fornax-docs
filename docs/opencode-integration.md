@@ -111,7 +111,13 @@ OpenCode, the same honest-gap behavior described for Codex in
 This page covers the setup and translation story a user needs. For the
 full empirical evidence behind these claims — the live-session capture,
 the fitness-test methodology, and the exact opencode v1.18.25 behavior
-this adapter was verified against — see, under **Reference → Research**:
-
-- [Third-provider fitness report](./reference/research/0002-third-provider-fitness-report.md)
-- [OpenCode live-transport verification](./reference/research/0003-opencode-live-transport-verification.md)
+this adapter was verified against — see `fornax-core`'s own
+**"Third-provider fitness report"** and **"OpenCode live-transport
+verification"** research docs, synced under **Reference → Research** in
+the sidebar once published there (not linked directly from this page, the
+same pattern used by [Codex integration](./codex-integration.md), since
+`fornax-core`'s research docs sync into this site independently of this
+page's own release). The synced
+[capability matrix](./reference/research/adapter-capability-matrix.md)
+is available today and covers the same cross-provider comparison in
+summary form.
