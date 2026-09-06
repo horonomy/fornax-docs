@@ -5,6 +5,16 @@ sidebar_position: 19
 
 # Capabilities
 
+:::note[Ships in v0.0.3 — engineering complete, not yet tagged]
+`fornax capabilities` is part of the v0.0.3 "Extensible Evidence Platform"
+line: epic FORNX-138 and children are Done, QA/Security sign-off
+(FORNX-244) is PASS, but the release itself (FORNX-245) hasn't run yet, so
+it isn't in a tagged release or on the `main` branch's current `v0.0.1`
+snapshot. Building from the public `fornax-core` `main` branch today gets
+you `status`/`detail`/`export-spool` only, not this command — see
+[Installation](./installation.md) for exactly what `v0.0.1` ships.
+:::
+
 `fornax capabilities` shows, per `SignalClass`, which signals the runtime(s)
 that announced for a session actually exposed this session — one of six
 distinct states, never collapsed into a boolean (FORNX-85, ADR-0001 D4).

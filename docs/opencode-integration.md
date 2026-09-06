@@ -5,11 +5,20 @@ sidebar_position: 6.5
 
 # OpenCode integration
 
-**Status: PARTIAL.** OpenCode is a real, shipped Fornax integration —
+**Status: PARTIAL.** OpenCode is a real Fornax integration —
 architecture-fitness-tested against a live opencode session — but it is
 genuinely narrower than the Claude Code and Codex adapters, and set up
 manually rather than by a CLI installer. This page states that honestly
 instead of implying parity that doesn't exist.
+
+:::note[Ships in v0.0.3 — engineering complete, not yet tagged]
+Like [Capabilities](./capabilities.md), this adapter is part of the v0.0.3
+"Extensible Evidence Platform" line (FORNX-138/FORNX-161, Done,
+QA/Security-signed-off) but not yet in a tagged release — the public
+`fornax-core` `main` branch's current `v0.0.1` snapshot has no
+`fornax-adapter-opencode` crate at all. See
+[Installation](./installation.md) for exactly what `v0.0.1` ships today.
+:::
 
 ## Why this integration looks different
 
@@ -32,12 +41,13 @@ thing that does.
 ## Set it up (manual — no CLI installer yet)
 
 Unlike Claude Code and Codex, there is no `fornax install-opencode` /
-`fornax uninstall-opencode` subcommand — `fornax --help` confirms this:
-the CLI only offers `install-claude`/`uninstall-claude` and
-`install-codex`/`uninstall-codex`. Wiring OpenCode up is a manual,
-one-time step for now (whether it should ever become a one-command
-installer, like the other two providers, is a separate product decision
-outside the scope of this page):
+`fornax uninstall-opencode` subcommand — the v0.0.3 CLI (see the note
+above) offers `install-claude`/`uninstall-claude` and
+`install-codex`/`uninstall-codex` for the other two providers, but nothing
+equivalent for OpenCode. Wiring OpenCode up is a manual, one-time step for
+now (whether it should ever become a one-command installer, like the other
+two providers, is a separate product decision outside the scope of this
+page):
 
 1. Build `fornax-core` per [Installation](./installation.md) and make sure
    `fornax-hook-opencode` is on `PATH` — opencode's plugin runtime spawns
