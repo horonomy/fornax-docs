@@ -5,14 +5,12 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Evidence, not narration',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
         Fornax captures tool calls, exit codes, and transcripts immutably,
@@ -23,7 +21,6 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Five honest states',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
         Every finding is <code>VERIFIED</code>, <code>UNVERIFIED</code>,{' '}
@@ -35,7 +32,6 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Local-first, no cloud required',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
         Capture, verification, status line, and dashboard all run on one
@@ -45,14 +41,11 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, description}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
+    <div className={clsx('col col--4', styles.feature)}>
+      <div>
+        <Heading as="h2" className={styles.featureTitle}>{title}</Heading>
         <p>{description}</p>
       </div>
     </div>

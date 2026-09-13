@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [main]
+    branches: [main, uiux/visual-experience-overhaul]
   pull_request:
 
 concurrency:
@@ -43,3 +43,12 @@ jobs:
         env:
           FORNAX_CORE_PATH: ${{ github.workspace }}/fornax-core
         run: npm run build
+
+      - name: verify rendered entry and recovery contracts
+        run: npm run test:entry
+
+      - name: install test browser
+        run: node node_modules/playwright/cli.js install --with-deps chromium
+
+      - name: verify documentation interactions
+        run: npm run test:e2e
