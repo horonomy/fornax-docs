@@ -18,13 +18,13 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link className="button button--secondary button--lg" to="/intro">
-            Read the docs
+          <Link className="button button--secondary button--lg" to="/quick-start">
+            Quick Start
           </Link>
           <Link
-            className="button button--secondary button--lg margin-left--md"
-            to="/quick-start">
-            Quick Start ⏱️
+            className={clsx('button button--outline button--secondary button--lg', styles.secondaryAction)}
+            to="/intro">
+            Introduction
           </Link>
         </div>
       </div>

@@ -5,7 +5,14 @@
   width: 100%;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.feature {
+  padding-block: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+}
+
+.feature code {
+  overflow-wrap: anywhere;
 }

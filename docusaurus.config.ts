@@ -7,7 +7,6 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Fornax',
   tagline: 'Evidence-first agent-integrity for coding agents',
-  favicon: 'img/favicon.ico',
 
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
@@ -76,16 +75,11 @@ const config: Config = {
   clientModules: ['./src/clientModules/analytics.ts'],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
       title: 'Fornax',
-      logo: {
-        alt: 'Fornax logo',
-        src: 'img/logo.svg',
-      },
       items: [
         {
           type: 'docSidebar',
@@ -114,6 +108,8 @@ const config: Config = {
         {
           title: 'Fornax',
           items: [
+            {label: 'Fornax website', href: 'https://fornax.horonom.com'},
+            {label: 'Horonom Product Atlas', href: 'https://horo.run'},
             {label: 'fornax-core (GitHub)', href: 'https://github.com/horonomy/fornax-core'},
             {label: 'fornax-docs (GitHub)', href: 'https://github.com/horonomy/fornax-docs'},
           ],

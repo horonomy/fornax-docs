@@ -12,7 +12,7 @@
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 2rem 0;
   }
 }
 
@@ -20,4 +20,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.buttons .secondaryAction {
+  color: var(--ifm-hero-text-color);
+}
+
+.buttons .secondaryAction:hover {
+  color: var(--ifm-color-secondary-contrast-foreground);
+}
+
+@media screen and (max-width: 576px) {
+  .buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .buttons a {
+    white-space: normal;
+  }
 }
