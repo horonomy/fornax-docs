@@ -45,6 +45,14 @@ function track(name: string, params?: Record<string, string>): void {
 /** Shell/install-command languages get their own event; anything else is generic code_copy. */
 const INSTALL_LANGUAGES = new Set(['bash', 'sh', 'shell', 'zsh'])
 
+/**
+ * github.com and its subdomains only. A substring test on the whole href
+ * also matches an unrelated host that merely mentions github.com in its own
+ * name, path or query string, which would attribute those clicks to
+ * github_click.
+ */
+const GITHUB_HOST = /(^|\.)github\.com$/
+
 function languageOfCodeBlock(copyButton: Element): string {
   // The copy button lives in a sibling buttonGroup, not inside <pre> --
   // the nearest ancestor carrying the "language-*" class is the code
@@ -83,7 +91,7 @@ if (typeof document !== 'undefined') {
       return
     }
 
-    if (link.href.includes('github.com')) {
+    if (GITHUB_HOST.test(link.hostname)) {
       track('github_click')
       return
     }
