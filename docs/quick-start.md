@@ -104,27 +104,30 @@ behind it, and an actionable recommendation computed on top — see
 [Fusion & decision](./planned/fusion-and-decision.md) for that
 in-development work.
 
-## 5. Optional: connect to Beta (coming soon)
+## 5. Optional: connect to Beta
 
 Everything above is entirely local — no account, no network access beyond
 `127.0.0.1`, required. Fornax also has an **opt-in, Beta** hosted sync tier
 for teams that want a shared findings dashboard instead of just the local
-CLI/dashboard. It is not the default, not required, and not yet a
-polished single-command flow:
+CLI/dashboard. It is not the default and not required, but self-service
+registration is live:
 
 - Cloud sync is gated by an explicit environment variable
   (`FORNAX_CLOUD_SYNC_ENABLED`) that defaults to off — see
   [Privacy & Redaction](./privacy-redaction.md) for exactly what it does and
   does not send.
-- The device-registration API itself (`POST /v1/devices/register`, issuing
-  a credential for `FORNAX_CLOUD_AUTH_TOKEN`) is built and working
-  (FORNX-150/151) — but the hosted Beta backend isn't yet exposed for
-  public self-service registration; it stays access-controlled while the
-  Beta trust-model cutover is finalized (FORNX-137). Until that cutover,
-  connecting a device means asking a Fornax operator to issue you a
-  credential rather than registering yourself from this page. Still marked
-  **Beta — coming soon** for that reason; this page will be updated with
-  the real self-service command once the endpoint is public.
+- Public self-service device registration is live (FORNX-137, 2026-09-19):
+
+  ```bash
+  curl -X POST https://fornax.horo.run/v1/devices/register \
+    -H "Content-Type: application/json" \
+    -d '{"device_id": "<a name you choose>", "label": "<a label>"}'
+  ```
+
+  The response's `credential` field is your `FORNAX_CLOUD_AUTH_TOKEN` — no
+  operator involved. See the [hosted findings dashboard](https://fornax.horo.run)
+  (the SaaS app boundary, not this docs site's own canonical host) to
+  inspect what synced.
 
 If you just want to evaluate Fornax's core loop, you can stop at step 4 —
 Beta cloud sync adds a hosted dashboard on top, it doesn't change anything
