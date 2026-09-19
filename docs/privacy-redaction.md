@@ -29,9 +29,8 @@ other truthy-looking strings like `yes` — leaves sync disabled. A cloud
 uploader now exists (in the separate `fornax-cloud` service, as an opt-in
 **Beta** preview, not GA) and must consult this gate before any network
 call, so a user can disable sync mid-session and have it take effect
-immediately. A guided device-registration/connect flow for turning this on
-without hand-wiring the environment variable and credentials yourself is
-still being built (FORNX-151) — see [Quick Start](./quick-start.md#5-optional-connect-to-beta-coming-soon).
+immediately. Device registration is self-service (FORNX-137) — see
+[Quick Start](./quick-start.md#5-optional-connect-to-beta).
 
 ## Redaction at the ingest boundary
 
