@@ -18,7 +18,14 @@ the same local path used to validate Fornax's core loop (FORNX-34).
   does OpenCode, with narrower event coverage and manual setup — see
   [OpenCode integration](./opencode-integration.md)).
 
-## 1. Clone and build
+## 1. Get the binaries
+
+Fastest path: download the prebuilt archive from the
+[latest GitHub Release](https://github.com/horonomy/fornax-core/releases/latest)
+(macOS/Linux; no Windows build) and extract it — see
+[Installation](./installation.md) for the full binary list and checksum
+verification. The commands below assume you built from source instead;
+substitute the extracted archive's path if you downloaded a release.
 
 ```bash
 git clone https://github.com/horonomy/fornax-core.git
@@ -29,8 +36,8 @@ cargo build --workspace
 Expected output ends with something like:
 
 ```
-   Compiling fornax-daemon v0.1.0 (.../fornax-core/crates/fornax-daemon)
-   Compiling fornax-cli v0.1.0 (.../fornax-core/crates/fornax-cli)
+   Compiling fornax-daemon v0.0.1 (.../fornax-core/crates/fornax-daemon)
+   Compiling fornax-cli v0.0.1 (.../fornax-core/crates/fornax-cli)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 12.34s
 ```
 
@@ -97,12 +104,11 @@ For the full story behind a verdict:
 ```
 
 See [First finding walkthrough](./first-finding-walkthrough.md) for exactly
-this scenario, reproduced end-to-end with a real captured payload. Planned
-for v0.0.4: going deeper than a single verdict — the full evidence graph
-behind it, and an actionable recommendation computed on top — see
-[Evidence graph](./planned/evidence-graph.md) and
-[Fusion & decision](./planned/fusion-and-decision.md) for that
-in-development work.
+this scenario, reproduced end-to-end with a real captured payload. For
+going deeper than a single verdict — the full evidence graph behind it, and
+an actionable recommendation computed on top — see
+[Evidence graph](./evidence-graph.md) and
+[Fusion & decision](./fusion-and-decision.md).
 
 ## 5. Optional: connect to Beta
 
