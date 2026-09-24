@@ -11,13 +11,11 @@ genuinely narrower than the Claude Code and Codex adapters, and set up
 manually rather than by a CLI installer. This page states that honestly
 instead of implying parity that doesn't exist.
 
-:::note[Ships in v0.0.3 — engineering complete, not yet tagged]
+:::note[Ships in v0.0.3]
 Like [Capabilities](./capabilities.md), this adapter is part of the v0.0.3
-"Extensible Evidence Platform" line (FORNX-138/FORNX-161, Done,
-QA/Security-signed-off) but not yet in a tagged release — the public
-`fornax-core` `main` branch's current `v0.0.1` snapshot has no
-`fornax-adapter-opencode` crate at all. See
-[Installation](./installation.md) for exactly what `v0.0.1` ships today.
+"Extensible Evidence Platform" line (FORNX-138/FORNX-161) and is available
+in tagged releases from v0.0.3 onward as `fornax-hook-opencode`. See
+[Installation](./installation.md) for the full binary list.
 :::
 
 ## Why this integration looks different

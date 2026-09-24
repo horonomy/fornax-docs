@@ -1,40 +1,32 @@
 ---
-title: Fusion & decision (planned)
-sidebar_position: 2
+title: Fusion & decision
+sidebar_position: 21
 ---
 
-# Fusion & decision (planned for v0.0.4)
+# Fusion & decision
 
-:::info[Planned — not yet in any released version]
-`fornax fusion` and `fornax decision` exist today only on Fornax's
-in-progress `next/v0.0.4` development branch. No CHANGELOG entry, no epic
-sign-off, not present in `main` or the `v0.0.3` release line. Everything
-below describes the target shape from that branch's current source and its
-own test fixtures — it is not runnable against any released `fornax`
-binary today.
-:::
-
-Two commands, one underlying computation, once shipped: `fornax fusion` is
-designed to compute and render the live fused verdict for a claim; `fornax
-decision` will compute the exact same fusion, then apply a risk policy on
-top to turn it into an actionable `PROCEED` / `REVIEW` / `BLOCK`
-recommendation. `decision` is designed to never show the recommendation on
-its own — it will always render the full fusion detail alongside it,
-reusing the same rendering code `fusion` uses.
+Two commands, one underlying computation, shipped in v0.0.4: `fornax fusion`
+computes and renders the fused verdict for a claim; `fornax decision`
+computes the exact same fusion, then applies a risk policy on top to turn it
+into an actionable `PROCEED` / `REVIEW` / `BLOCK` recommendation.
+`decision` never shows the recommendation on its own — it always renders
+the full fusion detail alongside it, reusing the same rendering code
+`fusion` uses.
 
 ## What is fusion?
 
 `BaselineFusionPolicy::fuse` (`fornax_verify::fusion`, FORNX-304) reads a
-claim's real evidence graph — the same graph [`evidence-graph`](./evidence-graph.md)
-shows you — and combines every linked-evidence relation and missing-evidence
-note into one `FusedFinding`: a verdict, an uncertainty band, and a
-rationale made of individual, itemized `RationaleEntry` rows.
+claim's real evidence graph — the same graph
+[`evidence-graph`](./evidence-graph.md) shows you — and combines every
+linked-evidence relation and missing-evidence note into one `FusedFinding`:
+a verdict, an uncertainty band, and a rationale made of individual,
+itemized `RationaleEntry` rows.
 
 If the real evidence graph for a claim is empty, fusion falls back to the
 `project_graph` projection instead of just reporting no evidence — this is
-documented today's actual production behavior (FORNX-93), not a bug. The
-response tells you which source was used via `graph_source`: `"graph"` for
-the claim's real evidence graph, `"projected"` when the fallback fired.
+documented, actual production behavior (FORNX-93), not a bug. The response
+tells you which source was used via `graph_source`: `"graph"` for the
+claim's real evidence graph, `"projected"` when the fallback fired.
 
 ## What is decision?
 
@@ -43,8 +35,8 @@ requested risk class (`strict`, `balanced`, or `lenient` — `balanced` is the
 default, and the class every hard safety floor in `fornax_verify::decision`
 is written against) to the same fused finding, producing a recommendation.
 Re-running with a different `--risk` on the same claim shows how the same
-evidence can justify a different action — that comparison is exactly what
-"user can inspect why the recommendation changed" means at the CLI layer.
+evidence can justify a different action — that's exactly what "inspect why
+the recommendation changed" means at the CLI layer.
 
 ## Why would I use these?
 
@@ -54,17 +46,11 @@ evidence can justify a different action — that comparison is exactly what
   — a CI gate, an approval step — and you want to see exactly which
   evidence justified it in the same breath.
 
-## How (target shape, not yet runnable)
+## How
 
 ```bash
 fornax fusion <CLAIM> <SESSION>
 ```
-
-Target output shape (fields and values below are drawn from the
-in-development branch's own test fixture for this exact response shape,
-`fusion_fixture` in `fornax-cli`'s test suite — not invented, but not a
-live capture either, since the command doesn't exist in any released
-binary yet):
 
 ```
 $ fornax fusion c1 s1
@@ -114,18 +100,17 @@ The `recommendation:` block only appears when the claim was found and no
 daemon error occurred — otherwise you get exactly the same not-found/error
 output `fusion` would show, because `decision` shares that code path.
 
-## What will happen internally
+## What happens internally
 
-Both are designed to read `GET /api/fusion` / `GET /api/decision` on the
-daemon. The daemon computes `fuse()` over the claim's evidence graph (or
-falls back to `project_graph`); `decision` additionally runs
-`DefaultRiskPolicy` over the resulting `FusedFinding` for the requested
-risk class. No computation happens in the CLI — it only renders what the
-daemon returns.
+Both read `GET /api/fusion` / `GET /api/decision` on the daemon. The daemon
+computes `fuse()` over the claim's evidence graph (or falls back to
+`project_graph`); `decision` additionally runs `DefaultRiskPolicy` over the
+resulting `FusedFinding` for the requested risk class. No computation
+happens in the CLI — it only renders what the daemon returns.
 
-## Constraints (as designed)
+## Constraints
 
-- Will require the daemon running and reachable, same as `evidence-graph`.
+- Requires the daemon running and reachable, same as `evidence-graph`.
 - `decision`'s `--risk` defaults to `balanced`; the hard safety floors in
   `fornax_verify::decision` are written against that class specifically, so
   don't assume `lenient` simply loosens every rule uniformly.
@@ -150,6 +135,6 @@ word.
 
 ## Where to go next
 
-- [Evidence graph](./evidence-graph.md) — planned, the raw graph fusion is computed from.
-- [Semantic judge](./semantic-judge.md) — planned, an additional opt-in opinion rendered alongside this same fusion detail.
-- [Concepts: Claim, Evidence, Finding](../concepts.md) — the underlying data model and the five verdict states, shipped today.
+- [Evidence graph](./evidence-graph.md) — the raw graph fusion is computed from.
+- [Semantic judge](./semantic-judge.md) — an additional opt-in opinion rendered alongside this same fusion detail.
+- [Concepts: Claim, Evidence, Finding](./concepts.md) — the underlying data model and the five verdict states.
