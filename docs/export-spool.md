@@ -27,7 +27,7 @@ requiring the daemon to be running or reachable. It reads
 :::note[Works while the daemon is stopped]
 Unlike [`capabilities`](./capabilities.md), which reads the daemon's HTTP
 API, `export-spool` reads the SQLite store directly and needs no running
-daemon — the same precedent the planned [`fornax experiment`](./planned/experiment.md)
+daemon — the same precedent the [`fornax experiment`](./experiment.md)
 command follows for the same reason.
 :::
 

@@ -5,10 +5,20 @@ sidebar_position: 4
 
 # Installation
 
-Fornax v0.0.1 is source-only — build from `fornax-core` with Cargo. There is
-no published crate or package manager release yet.
+There is no published crate or package manager release yet, but prebuilt
+binaries are published on every
+[GitHub Release](https://github.com/horonomy/fornax-core/releases) as of
+v0.0.4 — you don't need Cargo or a full workspace build just to try Fornax.
 
-## Build the workspace
+## Option A: download a release binary (fastest)
+
+Download the archive for the
+[latest release](https://github.com/horonomy/fornax-core/releases/latest)
+(macOS and Linux; there is no Windows build), verify it against the
+release's `SHA256SUMS.txt`, and extract it. This gives you the same
+binaries described below without a Rust toolchain or a full `cargo build`.
+
+## Option B: build the workspace from source
 
 ```bash
 git clone https://github.com/horonomy/fornax-core.git
@@ -16,7 +26,8 @@ cd fornax-core
 cargo build --workspace --release
 ```
 
-This produces four binaries under `target/release/`:
+Either option produces the same binaries, under `target/release/` if built
+from source, or in the extracted archive if downloaded:
 
 | Binary | Crate | Purpose |
 |---|---|---|
@@ -24,6 +35,9 @@ This produces four binaries under `target/release/`:
 | `fornax` | `fornax-cli` | `fornax status` / `fornax detail` — reads from the daemon's localhost API. |
 | `fornax-hook-claude` | `fornax-adapter-claude` | Claude Code hook adapter. |
 | `fornax-hook-codex` | `fornax-adapter-codex` | Codex rollout-tail adapter. |
+| `fornax-hook-opencode` | `fornax-adapter-opencode` | OpenCode hook adapter. |
+| `fornax-bench` | `fornax-bench` | Calibration/ablation benchmark harness (v0.0.4+). |
+| `fornax-replay` | `fornax-replay` | Local replay engine for regression comparison (v0.0.5+). |
 
 ## Put the binaries on your PATH
 

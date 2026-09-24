@@ -98,9 +98,12 @@ off:
 | Capability | Status |
 |---|---|
 | `fornax status` / `fornax detail`, Claude Code adapter, Codex adapter, `export-spool` | **SHIPPED** — `v0.0.1`, on the public `main` branch today |
-| `fornax capabilities`, `install-claude`/`install-codex` CLI installers | **SHIPPED**, `v0.0.3` line — engineering-complete, QA-signed-off, not yet tagged |
+| `fornax capabilities`, `install-claude`/`install-codex` CLI installers | **SHIPPED**, `v0.0.3` line |
 | OpenCode adapter | **PARTIAL** — real, `v0.0.3` line, narrower event coverage, manual setup only (see [OpenCode integration](./opencode-integration.md)) |
-| `evidence-graph`, `fusion`, `decision`, `judge`, `reliability`, `experiment` | **PLANNED** — `v0.0.4`, in development, not runnable today (see [Planned](./planned/evidence-graph.md)) |
+| `evidence-graph`, `fusion`, `decision`, `judge` | **SHIPPED** — `v0.0.4`, Developer Preview (see [Evidence graph](./evidence-graph.md), [Fusion & decision](./fusion-and-decision.md), [Semantic judge](./semantic-judge.md)) |
+| `reliability`/drift, `experiment` (counterfactual verification), causal provenance | **SHIPPED** — `v0.0.5`, Developer Preview (see [Reliability](./reliability.md), [Experiments](./experiment.md)) |
+| Enterprise policy & fleet deployment | **SHIPPED** — `v0.0.6`, real complete release |
+| Tamper-evident audit ledger, compliance reporting, SIEM delivery | **SHIPPED** — `v0.0.7`, real complete release |
 | Cloud team dashboard, shared policy administration, enterprise governance, BYOC/self-host beyond the local daemon | **NOT IMPLEMENTED** — described as a long-term direction in the product thesis, not started |
 
 See [Start here: scenarios](./scenarios.md) for the shortest path to trying

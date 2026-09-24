@@ -1,24 +1,15 @@
 ---
-title: Semantic judge (planned)
-sidebar_position: 3
+title: Semantic judge
+sidebar_position: 22
 ---
 
-# Semantic judge (planned for v0.0.4)
+# Semantic judge
 
-:::info[Planned — not yet in any released version]
-`fornax judge` exists today only on Fornax's in-progress `next/v0.0.4`
-development branch. No CHANGELOG entry, no epic sign-off, not present in
-`main` or the `v0.0.3` release line. Everything below describes the
-target shape from that branch's current source and its own test fixtures
-— it is not runnable against any released `fornax` binary today.
-:::
-
-Once shipped, `fornax judge` will send a claim plus a bounded, structured
-excerpt of its evidence graph to a locally configured, self-hosted judge
-model (an Ollama-compatible endpoint), and render the model's opinion
-alongside the same full fusion detail the planned
-[`fusion`](./fusion-and-decision.md)/[`decision`](./fusion-and-decision.md)
-commands render (FORNX-94).
+`fornax judge` sends a claim plus a bounded, structured excerpt of its
+evidence graph to a locally configured, self-hosted judge model (an
+Ollama-compatible endpoint), and renders the model's opinion alongside the
+same full fusion detail [`fusion`](./fusion-and-decision.md)/[`decision`](./fusion-and-decision.md)
+render (FORNX-94, shipped in v0.0.4).
 
 :::warning[The judge never replaces the deterministic trail]
 The judge's opinion is one more evidence source, always shown *alongside*
@@ -42,9 +33,9 @@ you already run). Skip it for anything where the deterministic trail alone
 is sufficient — it adds a real network call and a real model dependency for
 no benefit if you don't need the extra signal.
 
-## How (target shape, not yet runnable)
+## How
 
-Planned to be off by default, enabled via config first:
+Off by default, enabled via config first:
 
 ```toml
 # $FORNAX_HOME/config.toml
@@ -60,9 +51,6 @@ Then:
 ```bash
 fornax judge <CLAIM> <SESSION> [--allow-raw-evidence]
 ```
-
-Target output shape (drawn from the in-development branch's own test
-fixture for this response shape — not a live capture):
 
 ```
 $ fornax judge c1 s1
@@ -96,31 +84,30 @@ shown as an explicit banner, not silently dropped:
 
 ## `--allow-raw-evidence`
 
-By default, the excerpt sent to the judge is designed to be redacted the
-same way any other Fornax evidence is (see
-[Privacy & Redaction](../privacy-redaction.md)). `--allow-raw-evidence` is
-planned as an explicit opt-in to send unredacted evidence content to the
-judge instead — off by default per FORNX-94's "raw protected evidence"
-acceptance criterion.
+By default, the excerpt sent to the judge is redacted the same way any
+other Fornax evidence is (see [Privacy & Redaction](./privacy-redaction.md)).
+`--allow-raw-evidence` is an explicit opt-in to send unredacted evidence
+content to the judge instead — off by default per FORNX-94's "raw protected
+evidence" acceptance criterion.
 
-## What will happen internally
+## What happens internally
 
-`fornax judge` is designed to read `GET /api/judge` on the daemon. The
-daemon will build a bounded evidence-graph excerpt for the claim, call the
-configured Ollama-compatible endpoint, and map the response into a
+`fornax judge` reads `GET /api/judge` on the daemon. The daemon builds a
+bounded evidence-graph excerpt for the claim, calls the configured
+Ollama-compatible endpoint, and maps the response into a
 `verdict`/`rationale`/`disagreement` shape — one of `supported`,
 `contradicted`, `inconclusive`, or `unavailable` (four distinct icons, never
-collapsed: `✓`, `✕`, `?`, `—`). It will then reuse `fusion`'s own render
+collapsed: `✓`, `✕`, `?`, `—`). It then reuses `fusion`'s own render
 function to print the full evidence-graph detail underneath.
 
-## Constraints (as designed)
+## Constraints
 
 - Disabled by default (`[semantic_judge].enabled = false`).
-- Will require a reachable Ollama-compatible endpoint — a real network
-  call to `localhost` by default, not a Fornax-hosted service.
+- Requires a reachable Ollama-compatible endpoint — a real network call to
+  `localhost` by default, not a Fornax-hosted service.
 - Raw evidence stays redacted unless `--allow-raw-evidence` is passed.
 
-## What to watch for once it ships
+## What can go wrong
 
 | Symptom | Cause |
 |---|---|
@@ -131,6 +118,6 @@ function to print the full evidence-graph detail underneath.
 
 ## Where to go next
 
-- [Fusion & decision](./fusion-and-decision.md) — planned, the deterministic trail the judge is shown alongside.
-- [Privacy & Redaction](../privacy-redaction.md) — shipped today; what "redacted evidence" means before you'd reach for `--allow-raw-evidence`.
-- [Reliability](./reliability.md) — planned, a different, purely historical-statistics signal, not to be confused with the judge's live model opinion.
+- [Fusion & decision](./fusion-and-decision.md) — the deterministic trail the judge is shown alongside.
+- [Privacy & Redaction](./privacy-redaction.md) — what "redacted evidence" means before you'd reach for `--allow-raw-evidence`.
+- [Reliability](./reliability.md) — a different, purely historical-statistics signal, not to be confused with the judge's live model opinion.

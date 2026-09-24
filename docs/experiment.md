@@ -1,33 +1,23 @@
 ---
-title: Experiments (planned)
-sidebar_position: 5
+title: Experiments (counterfactual verification)
+sidebar_position: 24
 ---
 
-# Experiments (planned for v0.0.4, counterfactual verification)
+# Experiments (counterfactual verification)
 
-:::info[Planned — not yet in any released version]
-`fornax experiment` exists today only on Fornax's in-progress
-`next/v0.0.4` development branch. No CHANGELOG entry, no epic sign-off,
-not present in `main` or the `v0.0.3` release line. Everything below
-describes the target shape from that branch's current source
-(`experiment_ux.rs`) and its own test fixtures — it is not runnable
-against any released `fornax` binary today.
-:::
+`fornax experiment` previews, runs, and renders a bounded counterfactual
+robustness experiment against a claim: revert something to a baseline
+state, observe whether the claim's evidence changes the way the hypothesis
+predicts, and get back causally-labeled evidence — never just an LLM's
+opinion about causality (FORNX-101, shipped in v0.0.5).
 
-Once shipped, `fornax experiment` will preview, run, and render a bounded
-counterfactual robustness experiment against a claim: revert something to
-a baseline state, observe whether the claim's evidence changes the way the
-hypothesis predicts, and get back causally-labeled evidence — never just an
-LLM's opinion about causality (FORNX-101).
-
-:::note[Designed to be client-side, no daemon involved]
-`fornax experiment` is designed to run entirely against local filesystem
-paths — it will never call the daemon. An experiment needs a real
-working-tree `source_root` to stage an isolated copy under, and that's a
-local filesystem argument, not something a daemon HTTP endpoint should
-accept from a client. This follows the same precedent as the already-shipped
-[`export-spool`](../export-spool.md): designed to work without the daemon
-running at all.
+:::note[Client-side, no daemon involved]
+`fornax experiment` runs entirely against local filesystem paths — it never
+calls the daemon. An experiment needs a real working-tree `source_root` to
+stage an isolated copy under, and that's a local filesystem argument, not
+something a daemon HTTP endpoint accepts from a client. This follows the
+same precedent as [`export-spool`](./export-spool.md): it works without the
+daemon running at all.
 :::
 
 ## Why would I use it?
@@ -44,16 +34,13 @@ When you want to distinguish "this evidence happens to look bad" from "this
 specific change is what caused the evidence to look bad" — and you're
 willing to run a bounded, isolated mutation to find out.
 
-## How (target shape, not yet runnable)
+## How
 
-### 1. See what would actually be runnable once shipped
+### 1. See what's runnable
 
 ```bash
 fornax experiment templates
 ```
-
-The output below is the exact literal string `render_templates()` produces
-in the in-development branch's source — not a live CLI run:
 
 ```
 available experiment templates:
@@ -74,8 +61,8 @@ available experiment templates:
     InterventionApplier for it -- reports unsupported if attempted.
 ```
 
-Only `revert_file_to_baseline` has a built-in executor today — the other two
-are real `ExperimentSpec` contract shapes (FORNX-99) with no
+Only `revert_file_to_baseline` has a built-in executor today — the other
+two are real `ExperimentSpec` contract shapes (FORNX-99) with no
 `InterventionApplier` behind them yet (FORNX-100).
 
 ### 2. Author a spec (FORNX-99's wire format), then preview it
@@ -105,7 +92,7 @@ are real `ExperimentSpec` contract shapes (FORNX-99) with no
     "created_at": "2026-09-02T00:00:00Z",
     "created_by": "human-review",
     "environment": "worktree:/tmp/example",
-    "tool_version": "fornax-cli 0.0.4",
+    "tool_version": "fornax-cli 0.0.5",
     "runtime_versions": {}
   }
 }
@@ -142,8 +129,9 @@ risk: higher-risk -- requires explicit policy approval for:
   - network_call
 ```
 
-A spec whose `intervention.kind` has no built-in executor (`substitute_tool_result`,
-`disable_sensor`) previews as not eligible, never as a false "low-risk" pass:
+A spec whose `intervention.kind` has no built-in executor
+(`substitute_tool_result`, `disable_sensor`) previews as not eligible, never
+as a false "low-risk" pass:
 
 ```
 kind: SubstituteToolResult -- NOT ELIGIBLE (no built-in executor support; running this would report unsupported)
@@ -191,28 +179,27 @@ computed_at: 2026-09-02T00:05:00+00:00
 Every other outcome (`Inconclusive`, `Blocked`, `Unsupported`) gets its own
 honest, distinct label instead.
 
-## What will happen internally
+## What happens internally
 
-`fornax experiment run` is designed to stage an isolated copy of `--source`
-under `--staging-root`, apply the intervention inside that copy only,
-observe the result with a narrow, honest observer (it checks only whether
-the targeted file now holds the requested content — it does not re-run
-evidence collection or interpret what the change means for the hypothesis
-at large), and map the outcome into causally-labeled evidence via
+`fornax experiment run` stages an isolated copy of `--source` under
+`--staging-root`, applies the intervention inside that copy only, observes
+the result with a narrow, honest observer (it checks only whether the
+targeted file now holds the requested content — it does not re-run evidence
+collection or interpret what the change means for the hypothesis at large),
+and maps the outcome into causally-labeled evidence via
 `causal_evidence_from_experiment_result` (FORNX-102).
 
-## Constraints (as designed)
+## Constraints
 
-- Only `revert_file_to_baseline` is planned to have a built-in executor at
-  first.
-- The isolation boundary is designed to only ever auto-cover
-  `ephemeral_worktree_mutation` — any other side-effect class named in a
-  spec must already be granted by this host's `[experiment]` policy,
-  checked independently before the executor ever runs.
-- No daemon dependency planned — but also no daemon-backed persistence:
-  results would be printed, not stored, unless separately exported/linked.
+- Only `revert_file_to_baseline` has a built-in executor today.
+- The isolation boundary only ever auto-covers `ephemeral_worktree_mutation`
+  — any other side-effect class named in a spec must already be granted by
+  this host's `[experiment]` policy, checked independently before the
+  executor ever runs.
+- No daemon dependency — but also no daemon-backed persistence: results are
+  printed, not stored, unless separately exported/linked.
 
-## What to watch for once it ships
+## What can go wrong
 
 | Symptom | Cause |
 |---|---|
@@ -222,5 +209,5 @@ at large), and map the outcome into causally-labeled evidence via
 
 ## Where to go next
 
-- [Fusion & decision](./fusion-and-decision.md) — planned, where the resulting causal evidence is designed to ultimately feed back into a verdict.
-- [Concepts: Claim, Evidence, Finding](../concepts.md) — shipped today; the underlying evidence/claim model an experiment's observations would attach to.
+- [Fusion & decision](./fusion-and-decision.md) — where the resulting causal evidence ultimately feeds back into a verdict.
+- [Concepts: Claim, Evidence, Finding](./concepts.md) — the underlying evidence/claim model an experiment's observations attach to.
