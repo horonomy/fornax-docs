@@ -104,6 +104,8 @@ off:
 | `reliability`/drift, `experiment` (counterfactual verification), causal provenance | **SHIPPED** — `v0.0.5`, Developer Preview (see [Reliability](./reliability.md), [Experiments](./experiment.md)) |
 | Enterprise policy & fleet deployment | **SHIPPED** — `v0.0.6`, real complete release |
 | Tamper-evident audit ledger, compliance reporting, SIEM delivery | **SHIPPED** — `v0.0.7`, real complete release |
+| Epistemic Contracts, adaptive verification budgets, adversarial evidence hardening, self-integrity/formal checks, proof-carrying delegation, multi-agent trust, shadow execution, assurance cases, meta-verification, Agent Evidence Protocol | **SHIPPED, with 3 disclosed gaps** — `v0.0.8`, real release; readiness-gate verdict was CONTINUE, not a clean pass (see [Epistemic Contracts](./epistemic-contracts.md) onward for the honest per-feature detail) |
+| Federated calibration across organizations | **RESEARCHED, NOT SHIPPED** — `v0.0.8` research finding concluded narrow/defer: the mechanism works on synthetic data, but no real multi-tenant demand or Gold Corpus data exists yet to justify shipping it |
 | Cloud team dashboard, shared policy administration, enterprise governance, BYOC/self-host beyond the local daemon | **NOT IMPLEMENTED** — described as a long-term direction in the product thesis, not started |
 
 See [Start here: scenarios](./scenarios.md) for the shortest path to trying
