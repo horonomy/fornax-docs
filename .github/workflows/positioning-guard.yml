@@ -1,0 +1,79 @@
+# Semantic positioning guard (HORO-1740): catches the identity-narrowing
+# regression ("evidence-first agent-integrity system for coding agents")
+# across this repo's three first-impression surfaces — the Docusaurus
+# tagline/hero subtitle, the homepage SEO/OG description, and the docs
+# intro's opening definition. Does not touch any existing workflow — this
+# is a standalone, additive check.
+#
+# horonomy/.github is checked out sparse, pinned to the commit this repo's
+# positioning record was last verified against, so a drift check here
+# never depends on another repo's unreviewed HEAD.
+name: Positioning guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docusaurus.config.ts
+      - src/pages/index.tsx
+      - docs/intro.md
+      - .github/workflows/positioning-guard.yml
+  push:
+    branches: [main]
+    paths:
+      - docusaurus.config.ts
+      - src/pages/index.tsx
+      - docs/intro.md
+      - .github/workflows/positioning-guard.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: positioning-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout fornax-docs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: product
+
+      - name: Checkout horonomy/.github (positioning registry)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: horonomy/.github
+          ref: e03d9bd8c421514efef5167feb2e77698624f7bf
+          sparse-checkout: |
+            scripts
+            metadata/positioning
+          sparse-checkout-cone-mode: false
+          path: guard
+
+      - name: Check Docusaurus tagline / hero subtitle
+        run: |
+          python3 guard/scripts/check_positioning.py text \
+            --product fornax --surface identity \
+            --record guard/metadata/positioning/fornax.yaml \
+            --file product/docusaurus.config.ts \
+            --from "title: 'Fornax'," --to 'favicon:'
+
+      - name: Check homepage SEO/OG description
+        run: |
+          python3 guard/scripts/check_positioning.py text \
+            --product fornax --surface identity \
+            --record guard/metadata/positioning/fornax.yaml \
+            --file product/src/pages/index.tsx \
+            --from 'description="' --to 'Available today'
+
+      - name: Check docs intro opening definition
+        run: |
+          python3 guard/scripts/check_positioning.py text \
+            --product fornax --surface identity \
+            --record guard/metadata/positioning/fornax.yaml \
+            --file product/docs/intro.md \
+            --from '# What is Fornax?' --to 'Available today'
