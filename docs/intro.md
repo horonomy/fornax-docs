@@ -6,18 +6,19 @@ slug: /intro
 
 # What is Fornax?
 
-Fornax is an **evidence-first agent-integrity system** for coding agents
-(Claude Code, Codex, and — with narrower coverage —
-[OpenCode](./opencode-integration.md)). It answers one question:
+Fornax is **evidence-first execution-truth infrastructure** for AI agents. It
+answers one question:
 
 > What should I believe about what this agent is telling me, given the
 > evidence currently available?
 
-Coding agents narrate their own work — "all tests pass," "I fixed the bug,"
-"the build is green." That narration is sometimes wrong, and it is never
-independently checked by default. Fornax watches a session in real time,
-captures immutable evidence (tool calls, exit codes, transcripts), and checks
-the agent's claims against that evidence.
+Available today for coding agents (Claude Code, Codex, and — with narrower
+coverage — [OpenCode](./opencode-integration.md)). Coding agents narrate
+their own work — "all tests pass," "I fixed the bug," "the build is green."
+That narration is sometimes wrong, and it is never independently checked by
+default. Fornax watches a session in real time, captures immutable evidence
+(tool calls, exit codes, transcripts), and checks the agent's claims against
+that evidence.
 
 ## The five-state verdict
 

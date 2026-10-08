@@ -37,7 +37,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title={siteConfig.title}
-      description="Fornax is an evidence-first agent-integrity system for coding agents (Claude Code, Codex): captures immutable evidence and checks agent claims against it — VERIFIED / UNVERIFIED / CONTRADICTED / REVIEW / UNAVAILABLE, never a made-up trust score.">
+      description="Fornax is evidence-first execution-truth infrastructure for AI agents: captures immutable evidence and checks agent claims against it — VERIFIED / UNVERIFIED / CONTRADICTED / REVIEW / UNAVAILABLE, never a made-up trust score. Available today for coding agents (Claude Code, Codex).">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
