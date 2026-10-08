@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Fornax',
-  tagline: 'Evidence-first agent-integrity for coding agents',
+  tagline: 'Evidence-first execution truth for AI agents',
   favicon: 'img/favicon.ico',
 
   future: {
