@@ -51,12 +51,21 @@ function resolveCorePath() {
 
 const CORE_REPO_URL = 'https://github.com/horonomy/fornax-core.git';
 
+// git is looked up at fixed system locations, never through $PATH (a writable
+// directory earlier on $PATH must not be able to substitute the binary).
+const GIT_CANDIDATES = ['/usr/bin/git', '/usr/local/bin/git', '/opt/homebrew/bin/git'];
+
 // Last resort: fetch the public fornax-core main (no auth needed).
 function fetchCoreCheckout() {
   if (process.env.FORNAX_CORE_FETCH === '0') return undefined;
+  const git = GIT_CANDIDATES.find((p) => existsSync(p));
+  if (!git) {
+    console.warn('[sync-core-content] git not found at a fixed system location; cannot fetch fornax-core');
+    return undefined;
+  }
   const dir = mkdtempSync(join(tmpdir(), 'fornax-core-'));
   try {
-    execFileSync('git', ['clone', '--depth', '1', '--quiet', CORE_REPO_URL, dir], {
+    execFileSync(git, ['clone', '--depth', '1', '--quiet', CORE_REPO_URL, dir], {
       stdio: ['ignore', 'ignore', 'inherit'],
       timeout: 120000,
     });
