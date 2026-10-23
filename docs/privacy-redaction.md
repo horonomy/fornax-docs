@@ -69,6 +69,28 @@ secret shapes from what gets stored; whether anything leaves the machine at
 all is a separate, independent gate (`cloud_sync_allowed()` above). Both
 checks exist, and neither substitutes for the other.
 
+## What v0.0.9 does not enforce
+
+The default is local-only, and nothing in `fornax-core` contacts a cloud
+service unless it is explicitly configured. But the controls are
+configuration, not policy enforcement. Specifically, in v0.0.9:
+
+- The cloud-sync gate is a per-process environment variable
+  (`FORNAX_CLOUD_SYNC_ENABLED`). There is no persisted, scoped or audited
+  record of who consented to what.
+- A signed organisation policy can carry `egress.cloud_sync_allowed`, but no
+  runtime code reads it yet. A "corporate local-only" mode is therefore **not
+  enforced by Fornax**: it has to be enforced by how the machine is
+  configured.
+- The [semantic judge](./semantic-judge.md) (any configured endpoint) and the
+  policy poll are not covered by the cloud-sync gate. Both are off unless you
+  configure them.
+- There is no periodic or monthly batch upload. `fornax export-spool` is
+  manual and per session, spool files carry no integrity manifest, and raw
+  evidence is purged after 30 days whether or not it was exported.
+
+These are tracked as FORNX-464 and are not part of what v0.0.9 promises.
+
 ## Testing this claim, not just asserting it
 
 The local critical path's independence from cloud availability is tested
