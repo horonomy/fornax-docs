@@ -65,7 +65,9 @@ for what that guarantee actually covers.
 
 ## Project status
 
-Fornax is v0.0.1, OSS, local-first. The Rust workspace (`fornax-daemon`,
+Fornax is pre-1.0, OSS and local-first (the
+[latest GitHub release](https://github.com/horonomy/fornax-core/releases/latest)
+is the current version). The Rust workspace (`fornax-daemon`,
 `fornax-cli`, the Claude Code and Codex adapters, the store, and the
 verifier) is implemented and tested; cloud/SaaS sync is opt-in and disabled
 by default (see [Privacy & Redaction](./privacy-redaction.md)). Source:

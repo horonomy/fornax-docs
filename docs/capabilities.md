@@ -5,14 +5,11 @@ sidebar_position: 19
 
 # Capabilities
 
-:::note[Ships in v0.0.3 — engineering complete, not yet tagged]
-`fornax capabilities` is part of the v0.0.3 "Extensible Evidence Platform"
-line: epic FORNX-138 and children are Done, QA/Security sign-off
-(FORNX-244) is PASS, but the release itself (FORNX-245) hasn't run yet, so
-it isn't in a tagged release or on the `main` branch's current `v0.0.1`
-snapshot. Building from the public `fornax-core` `main` branch today gets
-you `status`/`detail`/`export-spool` only, not this command — see
-[Installation](./installation.md) for exactly what `v0.0.1` ships.
+:::note[Available since v0.0.3]
+`fornax capabilities` shipped in the v0.0.3 "Extensible Evidence Platform"
+release and is part of every release after it. A build of the public
+`fornax-core` `main` branch or any later tagged release has it; see
+[Installation](./installation.md) for how to get a build.
 :::
 
 `fornax capabilities` shows, per `SignalClass`, which signals the runtime(s)
