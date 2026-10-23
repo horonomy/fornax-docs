@@ -53,9 +53,14 @@ npm run build      # production build into ./build
 npm run typecheck  # tsc
 ```
 
-Without `FORNAX_CORE_PATH` set and no sibling checkout found, the sync step
-skips the Reference section with a warning — the authored MVP pages still
-build and serve fine on their own.
+Source resolution for the Reference section: `FORNAX_CORE_PATH`, then a sibling
+`../fornax` or `../fornax-core` checkout, then (unless `FORNAX_CORE_FETCH=0`) a
+shallow clone of the public `horonomy/fornax-core` `main` into the OS temp dir.
+The last step is what lets a bare build environment (such as the Cloudflare
+Pages project `fornax-docs-site`) build the full site: authored pages link into
+the Reference section and `onBrokenLinks: 'throw'` fails the build without it
+(FORNX-403). If all four fail the sync is skipped with a warning and the build
+fails on those links.
 
 ## CI
 
