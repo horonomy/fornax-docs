@@ -20,10 +20,20 @@
 //   3. ../fornax-core (sibling checkout) — the canonical repo name, used by
 //      CI, which checks out horonomy/fornax-core into this path.
 //
-// If none exist, the sync is skipped with a warning (non-fatal) — `npm run
-// build` / `npm start` still work with just the authored MVP pages.
+//   4. A shallow clone of the public horonomy/fornax-core `main` into the OS
+//      temp dir, unless FORNAX_CORE_FETCH=0. This is what makes the build
+//      self-sufficient where nothing else is checked out, e.g. the Cloudflare
+//      Pages build for docs.fornax.horonom.com (FORNX-403): authored pages
+//      link into the synced Reference section and `onBrokenLinks: 'throw'`
+//      fails the whole build when that section is missing.
+//
+// If none of these yields a checkout, the sync is skipped with a warning and
+// the build will fail on any link into /reference/ — it is not a supported
+// way to build the full site.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -37,6 +47,24 @@ function resolveCorePath() {
     join(repoRoot, '..', 'fornax-core'),
   ].filter(Boolean);
   return candidates.find((p) => existsSync(join(p, 'docs')));
+}
+
+const CORE_REPO_URL = 'https://github.com/horonomy/fornax-core.git';
+
+// Last resort: fetch the public fornax-core main (no auth needed).
+function fetchCoreCheckout() {
+  if (process.env.FORNAX_CORE_FETCH === '0') return undefined;
+  const dir = mkdtempSync(join(tmpdir(), 'fornax-core-'));
+  try {
+    execFileSync('git', ['clone', '--depth', '1', '--quiet', CORE_REPO_URL, dir], {
+      stdio: ['ignore', 'ignore', 'inherit'],
+      timeout: 120000,
+    });
+    return existsSync(join(dir, 'docs')) ? dir : undefined;
+  } catch (err) {
+    console.warn(`[sync-core-content] could not fetch ${CORE_REPO_URL}: ${err.message}`);
+    return undefined;
+  }
 }
 
 function titleFromMarkdown(content, fallback) {
@@ -86,7 +114,7 @@ function writeCategory(destDir, label, position) {
   );
 }
 
-const corePath = resolveCorePath();
+const corePath = resolveCorePath() ?? fetchCoreCheckout();
 const referenceRoot = join(repoRoot, 'docs', 'reference');
 
 // Clean previously synced output so deleted upstream docs don't linger.
@@ -94,7 +122,7 @@ rmSync(referenceRoot, { recursive: true, force: true });
 
 if (!corePath) {
   console.warn(
-    '[sync-core-content] no fornax-core checkout found (checked $FORNAX_CORE_PATH, ../fornax, ../fornax-core) — skipping reference sync. Set FORNAX_CORE_PATH to a local fornax-core checkout to include it.'
+    '[sync-core-content] no fornax-core checkout found (checked $FORNAX_CORE_PATH, ../fornax, ../fornax-core, and a fresh clone) — skipping reference sync; the build will fail on links into /reference/. Set FORNAX_CORE_PATH to a local fornax-core checkout to include it.'
   );
   process.exit(0);
 }
