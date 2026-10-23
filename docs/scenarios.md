@@ -12,9 +12,9 @@ actually doing. Each one is real command output from a fresh
 
 :::note[What's genuinely runnable today]
 All three scenarios use `status`/`detail`/`export-spool` and the Claude
-Code/Codex adapters — shipped on the public `main` branch (`v0.0.1`). None
+Code/Codex adapters — available since `v0.0.1`. None
 of them use `capabilities`, `install-claude`/`install-codex`, the OpenCode
-adapter (all real but on the not-yet-tagged `v0.0.3` line), or
+adapter (all real and released since `v0.0.3`), or
 `evidence-graph`/`fusion`/`decision`/`judge`/`reliability`/`experiment`
 (planned, `v0.0.4`, not runnable at all). See [Maturity](./why-fornax.md#maturity).
 :::

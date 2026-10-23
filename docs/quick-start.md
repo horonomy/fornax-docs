@@ -12,7 +12,7 @@ the same local path used to validate Fornax's core loop (FORNX-34).
 
 - Rust (stable) and Cargo — `rustc --version` should print something.
 - macOS or Linux (Fornax uses a Unix Domain Socket for adapter → daemon
-  transport; there is no Windows support in v0.0.1).
+  transport; there is no Windows support).
 - Claude Code, if you want to see live findings from a real session (Codex
   works too — see [Codex integration](./codex-integration.md) — and so
   does OpenCode, with narrower event coverage and manual setup — see
@@ -36,8 +36,8 @@ cargo build --workspace
 Expected output ends with something like:
 
 ```
-   Compiling fornax-daemon v0.0.1 (.../fornax-core/crates/fornax-daemon)
-   Compiling fornax-cli v0.0.1 (.../fornax-core/crates/fornax-cli)
+   Compiling fornax-daemon v<version> (.../fornax-core/crates/fornax-daemon)
+   Compiling fornax-cli v<version> (.../fornax-core/crates/fornax-cli)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 12.34s
 ```
 

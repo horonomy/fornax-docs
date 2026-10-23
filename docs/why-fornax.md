@@ -97,7 +97,7 @@ off:
 
 | Capability | Status |
 |---|---|
-| `fornax status` / `fornax detail`, Claude Code adapter, Codex adapter, `export-spool` | **SHIPPED** — `v0.0.1`, on the public `main` branch today |
+| `fornax status` / `fornax detail`, Claude Code adapter, Codex adapter, `export-spool` | **SHIPPED** — available since `v0.0.1` |
 | `fornax capabilities`, `install-claude`/`install-codex` CLI installers | **SHIPPED**, `v0.0.3` line |
 | OpenCode adapter | **PARTIAL** — real, `v0.0.3` line, narrower event coverage, manual setup only (see [OpenCode integration](./opencode-integration.md)) |
 | `evidence-graph`, `fusion`, `decision`, `judge` | **SHIPPED** — `v0.0.4`, Developer Preview (see [Evidence graph](./evidence-graph.md), [Fusion & decision](./fusion-and-decision.md), [Semantic judge](./semantic-judge.md)) |
