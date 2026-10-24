@@ -78,10 +78,15 @@ audit-checkpoint push, the policy poll, the semantic judge and the monthly
 metadata upload:
 
 - **Unconfigured** (the default) ships nothing.
-- **Corporate is local-only.** It never uploads evidence or checkpoints, and no
-  consent, allowlist entry, environment variable or published policy
+- **Corporate is local-only on this install.** It never uploads evidence or
+  checkpoints, and no consent, allowlist entry or environment variable
   overrides that. Entering it revokes every consent. The monthly upload never
-  schedules under it.
+  schedules under it. The only request it may still make is an explicitly
+  allowlisted policy fetch (a GET that carries no local data). **This is a
+  setting on the machine, held in a local database its user can edit — it is
+  not organization-enforced policy.** A signed organisation policy's
+  `egress.cloud_sync_allowed` is not yet consulted, so do not rely on this as
+  enterprise-enforced no-egress.
 - **Personal** can upload only under a live, expiring, revocable consent, only
   to an allowlisted destination, only while `FORNAX_CLOUD_SYNC_ENABLED=1`
   (that variable can now only tighten the decision, never loosen it), and only
