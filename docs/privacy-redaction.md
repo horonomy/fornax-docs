@@ -81,8 +81,13 @@ metadata upload:
 - **Corporate is local-only on this install.** It never uploads evidence or
   checkpoints, and no consent, allowlist entry or environment variable
   overrides that. Entering it revokes every consent. The monthly upload never
-  schedules under it. The only request it may still make is an explicitly
-  allowlisted policy fetch (a GET that carries no local data). **This is a
+  schedules under it. It has exactly two optional outbound paths, both off until you
+  configure them: an explicitly allowlisted policy fetch (a GET that carries no
+  local data), and an allowlisted semantic-judge gateway that requires a
+  recorded corporate processing-authorization reference (a judge sends the
+  claim text and redacted evidence you authorize it to receive, so it is not
+  metadata-only). With neither configured it makes no request to a
+  non-loopback host. **This is a
   setting on the machine, held in a local database its user can edit — it is
   not organization-enforced policy.** A signed organisation policy's
   `egress.cloud_sync_allowed` is not yet consulted, so do not rely on this as
