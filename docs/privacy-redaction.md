@@ -69,27 +69,49 @@ secret shapes from what gets stored; whether anything leaves the machine at
 all is a separate, independent gate (`cloud_sync_allowed()` above). Both
 checks exist, and neither substitutes for the other.
 
-## What v0.0.9 does not enforce
+## What v0.0.9 enforces about egress
 
-The default is local-only, and nothing in `fornax-core` contacts a cloud
-service unless it is explicitly configured. But the controls are
-configuration, not policy enforcement. Specifically, in v0.0.9:
+Nothing leaves the machine until you choose an egress profile
+(`fornax egress profile-set personal|corporate`). One persisted, audited,
+fail-closed decision is asked before **every** outbound attempt — the
+audit-checkpoint push, the policy poll, the semantic judge and the monthly
+metadata upload:
 
-- The cloud-sync gate is a per-process environment variable
-  (`FORNAX_CLOUD_SYNC_ENABLED`). There is no persisted, scoped or audited
-  record of who consented to what.
-- A signed organisation policy can carry `egress.cloud_sync_allowed`, but no
-  runtime code reads it yet. A "corporate local-only" mode is therefore **not
-  enforced by Fornax**: it has to be enforced by how the machine is
-  configured.
-- The [semantic judge](./semantic-judge.md) (any configured endpoint) and the
-  policy poll are not covered by the cloud-sync gate. Both are off unless you
-  configure them.
-- There is no periodic or monthly batch upload. `fornax export-spool` is
-  manual and per session, spool files carry no integrity manifest, and raw
-  evidence is purged after 30 days whether or not it was exported.
+- **Unconfigured** (the default) ships nothing.
+- **Corporate is local-only.** It never uploads evidence or checkpoints, and no
+  consent, allowlist entry, environment variable or published policy
+  overrides that. Entering it revokes every consent. The monthly upload never
+  schedules under it.
+- **Personal** can upload only under a live, expiring, revocable consent, only
+  to an allowlisted destination, only while `FORNAX_CLOUD_SYNC_ENABLED=1`
+  (that variable can now only tighten the decision, never loosen it), and only
+  the classes you consented to.
 
-These are tracked as FORNX-464 and are not part of what v0.0.9 promises.
+### Monthly batch upload (personal profile)
+
+Once a personal consent for `evidence_batch_upload` exists, closed months are
+uploaded automatically by the daemon (or on demand with `fornax upload run`;
+`fornax upload preview` shows the exact bytes first). The upload is
+**metadata only**: ids, kinds, providers, timestamps, verdict enums and bounded
+labels. Claim text, tool input/output and evidence payloads are never part of
+it, and no client follows redirects. Records are copied into a local outbox
+*before* the 30-day retention sweep can purge them, each batch is sealed with a
+hash that is persisted before the first send, a retry resends identical bytes
+under the same idempotency key, and anything that can never be uploaded
+(consent ended, size or age bound) is recorded as a gap you can see in
+`fornax upload status`. The receiver (`fornax-cloud`) rejects any member key
+outside the allowlist and re-checks the hash.
+
+### What is still not enforced
+
+- Policy lives in the local database a local user can edit, so a local user can
+  bypass it; a root-owned managed policy file is not implemented.
+- A signed organisation policy's `egress.cloud_sync_allowed=false` is not yet
+  folded into the decision.
+- Raw evidence and claim text are purged after 30 days (findings later); the
+  `fornax export-spool` path is manual and its files carry no integrity manifest.
+- Local legal hold, a cloud-side retention floor and a local user-deletion
+  command are not implemented.
 
 ## Testing this claim, not just asserting it
 
