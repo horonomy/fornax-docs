@@ -116,6 +116,7 @@ const config: Config = {
           items: [
             {label: 'fornax-core (GitHub)', href: 'https://github.com/horonomy/fornax-core'},
             {label: 'fornax-docs (GitHub)', href: 'https://github.com/horonomy/fornax-docs'},
+            {label: 'Support open source (individual maintainer, Ko-fi)', href: 'https://ko-fi.com/chisanan232'},
           ],
         },
       ],
